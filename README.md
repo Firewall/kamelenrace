@@ -18,3 +18,6 @@ Ik heb gewoon de github van robin nodig
 
 # Mongolab
 Make account vertel mij username
+
+# Interessante Shit
+https://www.youtube.com/watch?v=vpp-8gkPWVE
