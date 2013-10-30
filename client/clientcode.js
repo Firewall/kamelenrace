@@ -20,6 +20,25 @@ if (Meteor.isClient) {
     }
   }
 
+  Meteor.setInterval(
+      function () {
+          var top = player1Location.top ;
+          var left = player1Location.left - 0.1 ;
+
+          console.log("clicked top : " + top + "left "+ left) ;
+          // template data, if any, is available in 'this'
+          $("#player1").offset({ top:top, left:left })
+
+          player1Location = $("#player1").offset()
+
+
+
+          if (typeof console !== 'undefined')
+              console.log("You pressed the button");
+      },10
+
+  )
+
   Template.hello.events({
     'click input#1' : function () {
         var top = player1Location.top ;
@@ -80,16 +99,20 @@ if (Meteor.isClient) {
             var nameEntry = document.getElementById('chatInput');
             if(nameEntry.value != ""){
                 var ts = Date.now() / 1000 ;
-                Messages.insert({name: nameEntry.value,message :text,time : ts},function(){
-                    var elem = document.getElementById('chat');
-                    elem.scrollTop = elem.scrollHeight;
+                Messages.insert({
+                    name: nameEntry.value,
+                    message :text,
+                    time : ts},
+                    function(){
+                        var elem = document.getElementById('chat');
+                        elem.scrollTop = elem.scrollHeight;
 
-                });
-                event.target.value = "" ;
+                    });
+                    event.target.value = "" ;
 
+                }
             }
-        }
-    })
+        })
 }
 
 
