@@ -8,82 +8,40 @@
 </head>
 <body>
 <div id="container">
-{{> hello}}
-    <div id="chatLocation">
-        {{> entry}}
-    </div>
-  <footer>Project camel Race Mat Ewout Robin
-
-</footer>
+  {{> hello}}
+      <div id="chatLocation">
+          {{> entry}}
+      </div>
+    <footer>Project camel Race Mat Ewout Robin</footer>
 </div>
-
 </body>
-
 </html>
 
 <template name="hello">
-
-
   {{greeting}}
-
-
-
-        <div id="backgroundRaceField">
-            <div class="lane"><p>lane 1</p></div>
-                <div id=player1></div>
-
-
-            <div class="lane"><p>lane 2</p></div>
-
-
-            <div class="lane"><p>lane 3</p></div>
-
-
-            <div class="laneEnd"><p>lane 4</p></div>
-
-
-
-
-
-        </div>
-
-        <div id="ballTrowLocation"></div>
-
-
-
-
-
-
-
-
-
+    <div id="backgroundRaceField">
+      <div class="lane"><p>lane 1</p></div>
+      <div id=player1></div>
+      <div class="lane"><p>lane 2</p></div>
+      <div class="lane"><p>lane 3</p></div>
+      <div class="laneEnd"><p>lane 4</p></div>
+    </div>
+    <div id="ballTrowLocation"></div>
 </template>
 
 <template name="messages">
-
     {{#each messages}}
     {{> message}}
     {{/each}}
-
 </template>
-
-
 
 <template name="message">
     <p><strong>{{name}}:</strong> {{message}}</p>
-
  </template>
 
 <template name="entry">
     <div id="chat" readonly>
         {{> messages}}
-
-
     </div>
-
-
-
-        <input type="text" id="chatInput" placeholder="your message">
-
-
+    <input type="text" id="chatInput" placeholder="your message">
 </template>
