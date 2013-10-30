@@ -92,46 +92,6 @@ if (Meteor.isClient) {
      })
 
 
-    var xPos;
-    var yPos;
-
-    $(function () {
-        xPos = 250;
-        yPos = 250;
-
-        var two = new Two({
-            fullscreen: true,
-            autostart: true
-        }).appendTo(document.body);
-
-        var rect = two.makeRectangle(two.width / 5, two.height / 5, 50, 50);
-        rect.noStroke().fill = getRandomColor();
-        rect.domElement = document.querySelector('#two-' + rect.id);
-
-        $(rect.domElement)
-            .css('cursor', 'pointer')
-            .click(function (e) {
-                rect.fill = getRandomColor();
-                console.log(rect);
-
-
-            });
-
-        two.bind('update', function (frameCount, timeDelta) {
-            //rect.rotation = frameCount / 60;
-            rect.translation.set(++xPos, yPos);
-        });
-
-        function getRandomColor() {
-            return 'rgb('
-                + Math.floor(Math.random() * 255) + ','
-                + Math.floor(Math.random() * 255) + ','
-                + Math.floor(Math.random() * 255) + ')';
-        }
-
-    });
-
-
 }
 
 
