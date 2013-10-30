@@ -136,14 +136,15 @@ body{
     height: 125px;
     float: left;
 }
-#player1{
-    width: 93px;
+#player1 {
+    width: 76px;
     height: 86px;
-    background-image: url("img/camel2.jpg");
-    background-size: 93%;
+    /*background-image: url("img/camel2.jpg");*/
+    background-image: url("img/camelnoback.svg");
+    background-size: 105%;
     position: relative;
     top: 30px;
-    margin-left: 600px;
+    margin-left: 600px;;
 
 
 }
