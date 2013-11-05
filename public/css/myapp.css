@@ -140,10 +140,47 @@ body{
     width: 76px;
     height: 86px;
     /*background-image: url("img/camel2.jpg");*/
-    background-image: url("img/camelnoback.svg");
+    background-image: url("img/BlueCamel.svg");
     background-size: 105%;
     position: relative;
     top: 30px;
+    margin-left: 600px;;
+
+
+}
+
+#player2 {
+    width: 76px;
+    height: 86px;
+    /*background-image: url("img/camel2.jpg");*/
+    background-image: url("img/YellowCamel.svg");
+    background-size: 105%;
+    position: relative;
+    top: 60px;
+    margin-left: 600px;;
+
+
+}
+#player3 {
+    width: 76px;
+    height: 86px;
+    /*background-image: url("img/camel2.jpg");*/
+    background-image: url("img/RedCamel.svg");
+    background-size: 105%;
+    position: relative;
+    top: 97px;
+    margin-left: 600px;;
+
+
+}
+#player4 {
+    width: 76px;
+    height: 86px;
+    /*background-image: url("img/camel2.jpg");*/
+    background-image: url("img/GreenCamel.svg");
+    background-size: 105%;
+    position: relative;
+    top: 140px;
     margin-left: 600px;;
 
 
