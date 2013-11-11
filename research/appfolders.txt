@@ -89,6 +89,3 @@ my_app/
 
 
 
-links
-
-http://www.html5rocks.com/en/tutorials/casestudies/roll-it/
