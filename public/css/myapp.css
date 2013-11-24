@@ -12,13 +12,13 @@ img {
 
 @font-face {
     font-family: 'Norwester';
-    src: url("webfonts/norwester.tff");
+    src: url("../webfonts/norwester.ttf");
 }
 
 @font-face
 {
     font-family: myFirstFont;
-    src: url("webfonts/norwestern.woff");
+    src: url("../webfonts/norwester.woff");
     font-weight:bold;
 }
 
@@ -71,7 +71,7 @@ body{
     margin-left: 10px;
     border:2px solid;
     border-radius:25px;
-    background-image: url("img/trow.png");
+    background-image: url("../img/trow.png");
     width: 270px ;
     float: right;
     height: 700px;
@@ -159,7 +159,7 @@ body{
     width: 76px;
     height: 86px;
     /*background-image: url("img/camel2.jpg");*/
-    background-image: url("img/BlueCamel.svg");
+    background-image: url("../img/BlueCamel.svg");
     background-size: 105%;
     position: relative;
     top: 40px;
@@ -172,7 +172,7 @@ body{
     width: 76px;
     height: 86px;
     /*background-image: url("img/camel2.jpg");*/
-    background-image: url("img/YellowCamel.svg");
+    background-image: url("../img/YellowCamel.svg");
     background-size: 105%;
     position: relative;
     top: 80px;
@@ -184,7 +184,7 @@ body{
     width: 76px;
     height: 86px;
     /*background-image: url("img/camel2.jpg");*/
-    background-image: url("img/RedCamel.svg");
+    background-image: url("../img/RedCamel.svg");
     background-size: 105%;
     position: relative;
     top: 125px;
@@ -196,7 +196,7 @@ body{
     width: 76px;
     height: 86px;
     /*background-image: url("img/camel2.jpg");*/
-    background-image: url("img/GreenCamel.svg");
+    background-image: url("../img/GreenCamel.svg");
     background-size: 105%;
     position: relative;
     top: 140px;
