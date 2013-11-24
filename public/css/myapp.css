@@ -52,7 +52,7 @@ body{
 
 }
 #backgroundRaceField {
-    background-color: #0000ff;
+    /*background-color: #0000ff;*/
     /*background-image: url("img/background2.png");
     background-size: 119%;*/
     height: 500px;
@@ -61,7 +61,8 @@ body{
     margin: 5px;
     border:2px solid;
     border-radius:25px;
-    background-color: greenyellow;
+    /*background-color: greenyellow;*/
+    background-color: #F0F9FE;
 
 
 
@@ -118,9 +119,6 @@ body{
     text-indent: 10px;
     background-color: #f8ff62;
     margin-top: 5px;
-
-
-
 }
 
 .lane{
@@ -130,6 +128,27 @@ body{
     float: left;
     border-bottom: 4px solid #000000;
 }
+
+.desertBackground {
+    position: relative;
+    top: 75px;
+    background-image: url("../img/DesertBackground.png");
+    background-repeat: repeat-x;
+    width: 100%;
+    height: 24px;
+}
+
+.desertForeground {
+    position: relative;
+    top: 61px;
+    background-image: url("../img/DesertForeground.png");
+    background-repeat: repeat-x;
+    width: 100%;
+    height: 24px;
+    z-index: 1;
+}
+
+
 .laneEnd{
 
     width: 700px;
@@ -143,7 +162,7 @@ body{
     background-image: url("img/BlueCamel.svg");
     background-size: 105%;
     position: relative;
-    top: 30px;
+    top: 40px;
     margin-left: 600px;;
 
 
@@ -156,7 +175,7 @@ body{
     background-image: url("img/YellowCamel.svg");
     background-size: 105%;
     position: relative;
-    top: 60px;
+    top: 80px;
     margin-left: 600px;;
 
 
@@ -168,7 +187,7 @@ body{
     background-image: url("img/RedCamel.svg");
     background-size: 105%;
     position: relative;
-    top: 97px;
+    top: 125px;
     margin-left: 600px;;
 
 
