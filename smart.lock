@@ -1,0 +1,15 @@
+{
+  "meteor": {},
+  "dependencies": {
+    "basePackages": {
+      "snap-svg": {}
+    },
+    "packages": {
+      "snap-svg": {
+        "git": "https://github.com/10thfloor/meteor-snap-svg.git",
+        "tag": "v0.1.0",
+        "commit": "ec16c1bd55ff6695f1417c4b8ca718624f65efae"
+      }
+    }
+  }
+}

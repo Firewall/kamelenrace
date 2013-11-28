@@ -71,7 +71,7 @@ body{
     margin-left: 10px;
     border:2px solid;
     border-radius:25px;
-    background-image: url("../img/trow.png");
+    /*background-image: url("../img/trow.png");*/
     width: 270px ;
     float: right;
     height: 700px;
