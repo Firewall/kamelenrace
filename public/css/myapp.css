@@ -205,6 +205,10 @@ body{
 
 }
 
+#ballTrowLocation {
+    background-color: #fff;
+}
+
 footer{
     width: 1000px;
     text-align: center;

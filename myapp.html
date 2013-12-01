@@ -10,6 +10,7 @@
 <body>
 <div id="container">
     {{> hello}}
+    {{> ball}}
     <div id="chatLocation">
         {{> entry}}
     </div>
@@ -50,7 +51,11 @@
         </div>
         <div id=player4></div>
     </div>
-    <div id="ballTrowLocation"></div>
+</template>
+
+<template name="ball">
+    <svg id="ballTrowLocation">
+    </svg>
 </template>
 
 <template name="messages">
