@@ -20,43 +20,43 @@ if (Meteor.isClient) {
         }
     }
 
-
-    Meteor.setInterval(
-        function () {
-            var top = player1Location.top;
-            var left = player1Location.left - 0.1;
-
-            console.log("clicked top : " + top + "left " + left);
-            // template data, if any, is available in 'this'
-            $("#player1").offset({ top: top, left: left })
-
-            player1Location = $("#player1").offset()
-
-
-            if (typeof console !== 'undefined')
-                console.log("You pressed the button");
-        }, 10
-
-    )
-
-    Template.hello.events({
-        'click input#1': function () {
-            var top = player1Location.top;
-            var left = player1Location.left - 50;
-
-
-            console.log("clicked top : " + top + "left " + left);
-            // template data, if any, is available in 'this'
-            $("#player1").offset({ top: top, left: left })
-
-            player1Location = $("#player1").offset()
-
-
-            if (typeof console !== 'undefined')
-                console.log("You pressed the button");
-        }
-
-    });
+// I get a console error in here
+//    Meteor.setInterval(
+//        function () {
+//            var top = player1Location.top;
+//            var left = player1Location.left - 0.1;
+//
+//            console.log("clicked top : " + top + "left " + left);
+//            // template data, if any, is available in 'this'
+//            $("#player1").offset({ top: top, left: left })
+//
+//            player1Location = $("#player1").offset()
+//
+//
+//            if (typeof console !== 'undefined')
+//                console.log("You pressed the button");
+//        }, 10
+//
+//    )
+//
+//    Template.hello.events({
+//        'click input#1': function () {
+//            var top = player1Location.top;
+//            var left = player1Location.left - 50;
+//
+//
+//            console.log("clicked top : " + top + "left " + left);
+//            // template data, if any, is available in 'this'
+//            $("#player1").offset({ top: top, left: left })
+//
+//            player1Location = $("#player1").offset()
+//
+//
+//            if (typeof console !== 'undefined')
+//                console.log("You pressed the button");
+//        }
+//
+//    });
 
     Template.messages.messages = function () {
         return Messages.find({}, { sort: {time: 1} });
