@@ -150,11 +150,11 @@ if (Meteor.isClient) {
         snapBall = Snap('#ballTrowLocation');
 
         //we make the holes at the top
-        var hole1 = drawHole(ballFieldWidth / 2, 150, ballWidth + 20, '1')
-        var hole2 = drawHole(ballFieldWidth / 2 - 2.5 * ballWidth, 90, ballWidth + 15, '2')
-        var hole3 = drawHole(ballFieldWidth / 2 + 2.5 * ballWidth, 90, ballWidth + 11, '3')
-        var hole4 = drawHole(ballFieldWidth / 2 + 5 * ballWidth, 50, ballWidth + 7, '4')
-        var hole5 = drawHole(ballFieldWidth / 2 - 5 * ballWidth, 50, ballWidth + 4, '5')
+        var hole1 = drawHole(ballFieldWidth / 2, 130, ballWidth + 20, '1')
+        var hole2 = drawHole(ballFieldWidth / 2 - 2.5 * ballWidth, 70, ballWidth + 15, '2')
+        var hole3 = drawHole(ballFieldWidth / 2 + 2.5 * ballWidth, 70, ballWidth + 11, '3')
+        var hole4 = drawHole(ballFieldWidth / 2 + 5 * ballWidth, 30, ballWidth + 7, '4')
+        var hole5 = drawHole(ballFieldWidth / 2 - 5 * ballWidth, 30, ballWidth + 4, '5')
 
         //we create a circle
         var userCircle = snapBall.circle(ballFieldWidth / 2, 600, ballWidth);
@@ -163,6 +163,7 @@ if (Meteor.isClient) {
         userCircle.attr({
             fill: 'r()#FF0000-#B30000',//'FF0000''#D40404',
             stroke: '#000',
+
             strokeWidth: '1'
         })
 
