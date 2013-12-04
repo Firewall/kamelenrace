@@ -120,6 +120,31 @@ if (Meteor.isClient) {
 // ----------------------------------------------------------------------------
 // All animation for the ballThrowLocation
 
+    var ballFieldWidth = 0;
+    var ballWidth = 0;
+    var lx = 0,
+        ly = 0,
+        ox = 0,
+        oy = 0;
+    var hole1MiddlepointX = 0,
+        hole1MiddlepointY = 0,
+        hole1Radius = 0;
+
+    // Sets the needed field to its proper values
+    function initVariables() {
+        ballFieldWidth = $('#ballTrowLocation').width();
+        ballWidth = 20;
+
+        hole1MiddlepointX = ballFieldWidth / 2;
+        hole1MiddlepointY = 130;
+        hole1Radius = ballWidth + 20;
+
+//        lx = ballFieldWidth / 2;
+//        ly = 600;
+        lx = 0;
+        ly = 0;
+    }
+
     // the code for drawing a hole at the top
     function drawHole(x, y, r, number){
         var hole = snapBall.circle(x, y, r);
@@ -137,27 +162,58 @@ if (Meteor.isClient) {
         return hole;
     }
 
+    // We use these three functions to make the ball move
+    // source : http://stackoverflow.com/questions/19774494/get-coordinates-of-svg-group-on-drag-with-snap-svg
+    moveFnc = function(dx, dy, x, y) {
+        lx = dx + ox;
+        ly = dy + oy;
+        this.transform('t' + lx + ',' + ly);
+
+        checkIfAboveHole1();
+
+        //console.log('x:' + lx + ', y:' + ly);
+    }
+    startFnc = function(x, y, e) {  }
+    endFnc = function() {
+        ox = lx;
+        oy = ly;
+    };
+
+    // Gets the distance between 2 points
+    // The parameters are the coordinates of those 2 points
+    function getDistance(x1, y1, x2, y2){
+        return Math.sqrt((x2 -x1) * (x2 -x1) + (y2 - y1) * (y2 - y1));
+    }
+
+    // Checks if the ball is above hole 1
+    function checkIfAboveHole1 () {
+        if(hole1Radius > getDistance(lx, ly, hole1MiddlepointX, hole1MiddlepointY)){
+            console.log('The ball is above hole 1');
+        }
+    }
 
     // we are going to animate the ball
     // after the element has been rendered
     Template.ball.rendered = function() {
 
-        //define some all used variables
-        var ballFieldWidth = $('#ballTrowLocation').width();
-        var ballWidth = 20;
+        // sets the correct values on the fields
+        initVariables();
+
+        console.log(hole1MiddlepointX + ', ' + hole1MiddlepointY + ', ' + hole1Radius);
 
         //select the canvas to add snaps
         snapBall = Snap('#ballTrowLocation');
 
         //we make the holes at the top
-        var hole1 = drawHole(ballFieldWidth / 2, 130, ballWidth + 20, '1')
+        var hole1 = drawHole(hole1MiddlepointX, hole1MiddlepointY, hole1Radius, '1')
         var hole2 = drawHole(ballFieldWidth / 2 - 2.5 * ballWidth, 70, ballWidth + 15, '2')
         var hole3 = drawHole(ballFieldWidth / 2 + 2.5 * ballWidth, 70, ballWidth + 11, '3')
         var hole4 = drawHole(ballFieldWidth / 2 + 5 * ballWidth, 30, ballWidth + 7, '4')
         var hole5 = drawHole(ballFieldWidth / 2 - 5 * ballWidth, 30, ballWidth + 4, '5')
 
         //we create a circle
-        var userCircle = snapBall.circle(ballFieldWidth / 2, 600, ballWidth);
+        //var userCircle = snapBall.circle(lx, ly, ballWidth);
+        var userCircle = snapBall.circle(lx, ly, ballWidth);
 
         //we give the circle the color of red
         userCircle.attr({
@@ -167,7 +223,8 @@ if (Meteor.isClient) {
             strokeWidth: '1'
         })
 
-        userCircle.drag();
+        // We make the ball draggable
+        userCircle.drag(moveFnc, startFnc, endFnc);
     };
 
 
