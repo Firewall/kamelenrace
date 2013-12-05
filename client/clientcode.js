@@ -120,29 +120,46 @@ if (Meteor.isClient) {
 // ----------------------------------------------------------------------------
 // All animation for the ballThrowLocation
 
+    // Gives us a "class" of a circle where we can use all the properties
+    function Circle(middlepointX, middlepointY, radius, nr){
+        this.middlepointX = middlepointX;
+        this.middlepointY = middlepointY;
+        this.radius = radius;
+        this.nr = nr;
+    }
+
+    // Declare al the fields
     var ballFieldWidth = 0;
     var ballWidth = 0;
     var lx = 0,
         ly = 0,
         ox = 0,
         oy = 0;
-    var hole1MiddlepointX = 0,
-        hole1MiddlepointY = 0,
-        hole1Radius = 0;
+    var ball;
+    var holesArray;
+    var snapBall;
 
     // Sets the needed field to its proper values
     function initVariables() {
         ballFieldWidth = $('#ballTrowLocation').width();
         ballWidth = 20;
 
-        hole1MiddlepointX = ballFieldWidth / 2;
-        hole1MiddlepointY = 130;
-        hole1Radius = ballWidth + 20;
+        holesArray = new Array();
+        holesArray[0] = new Circle(ballFieldWidth / 2, 130, ballWidth + 20, '1');
+        holesArray[1] = new Circle(ballFieldWidth / 2 - 2.5 * ballWidth, 70, ballWidth + 15, '2');
+        holesArray[2] = new Circle(ballFieldWidth / 2 + 2.5 * ballWidth, 70, ballWidth + 11, '3');
+        holesArray[3] = new Circle(ballFieldWidth / 2 + 5 * ballWidth, 30, ballWidth + 7, '4');
+        holesArray[4] = new Circle(ballFieldWidth / 2 - 5 * ballWidth, 30, ballWidth + 4, '5');
 
-//        lx = ballFieldWidth / 2;
-//        ly = 600;
-        lx = 0;
-        ly = 0;
+        //select the canvas to add snaps
+        snapBall = Snap('#ballTrowLocation');
+
+        //we make the holes at the top
+        var svgHole1 = drawHole(holesArray[0].middlepointX, holesArray[0].middlepointY, holesArray[0].radius, holesArray[0].nr);
+        var svgHole2 = drawHole(holesArray[1].middlepointX, holesArray[1].middlepointY, holesArray[1].radius, holesArray[1].nr);
+        var svgHole3 = drawHole(holesArray[2].middlepointX, holesArray[2].middlepointY, holesArray[2].radius, holesArray[2].nr);
+        var svgHole4 = drawHole(holesArray[3].middlepointX, holesArray[3].middlepointY, holesArray[3].radius, holesArray[3].nr);
+        var svgHole5 = drawHole(holesArray[4].middlepointX, holesArray[4].middlepointY, holesArray[4].radius, holesArray[4].nr);
     }
 
     // the code for drawing a hole at the top
@@ -162,6 +179,30 @@ if (Meteor.isClient) {
         return hole;
     }
 
+    // resets the ball so that the ball comes at it 's starting place
+    function resetBall() {
+        // init coordinates
+        ox = ballFieldWidth / 2;
+        oy = 600;
+
+        //make circle
+        var newBall = snapBall.circle(0, 0, ballWidth);
+        newBall.transform('t' + ox + ',' + oy);
+
+        //we give the circle the color of red
+        newBall.attr({
+            fill: 'r()#FF0000-#B30000',//'FF0000''#D40404',
+            stroke: '#000',
+
+            strokeWidth: '1'
+        });
+
+        // We make the ball draggable
+        newBall.drag(moveFnc, startFnc, endFnc);
+
+        return newBall;
+    }
+
     // We use these three functions to make the ball move
     // source : http://stackoverflow.com/questions/19774494/get-coordinates-of-svg-group-on-drag-with-snap-svg
     moveFnc = function(dx, dy, x, y) {
@@ -169,7 +210,10 @@ if (Meteor.isClient) {
         ly = dy + oy;
         this.transform('t' + lx + ',' + ly);
 
-        checkIfAboveHole1();
+        var i;
+        for (i=0; i< holesArray.length; i++){
+            checkIfAboveHole(holesArray[i]);
+        }
 
         //console.log('x:' + lx + ', y:' + ly);
     }
@@ -177,7 +221,7 @@ if (Meteor.isClient) {
     endFnc = function() {
         ox = lx;
         oy = ly;
-    };
+    }
 
     // Gets the distance between 2 points
     // The parameters are the coordinates of those 2 points
@@ -185,10 +229,18 @@ if (Meteor.isClient) {
         return Math.sqrt((x2 -x1) * (x2 -x1) + (y2 - y1) * (y2 - y1));
     }
 
+    // The ball goes to the middle of the hole
+    function ballInHole1() {
+        ball.undrag();  // removes all the drag features, but all the following drags won't be executed
+        ball.animate({cx: hole1MiddlepointX - lx, cy:hole1MiddlepointY - ly, r:0}, 1000);
+        ball = resetBall(); // he doesn't reset the drag function because of the .undrag()
+    }
+
     // Checks if the ball is above hole 1
-    function checkIfAboveHole1 () {
-        if(hole1Radius > getDistance(lx, ly, hole1MiddlepointX, hole1MiddlepointY)){
-            console.log('The ball is above hole 1');
+    function checkIfAboveHole (hole) {
+        if(hole.radius > getDistance(lx, ly, hole.middlepointX, hole.middlepointY)){
+            console.log('The ball is above hole ' + hole.nr);
+            //ballInHole1();
         }
     }
 
@@ -199,37 +251,12 @@ if (Meteor.isClient) {
         // sets the correct values on the fields
         initVariables();
 
-        console.log(hole1MiddlepointX + ', ' + hole1MiddlepointY + ', ' + hole1Radius);
+        //we create a the ball
+        ball = resetBall();
 
-        //select the canvas to add snaps
-        snapBall = Snap('#ballTrowLocation');
-
-        //we make the holes at the top
-        var hole1 = drawHole(hole1MiddlepointX, hole1MiddlepointY, hole1Radius, '1')
-        var hole2 = drawHole(ballFieldWidth / 2 - 2.5 * ballWidth, 70, ballWidth + 15, '2')
-        var hole3 = drawHole(ballFieldWidth / 2 + 2.5 * ballWidth, 70, ballWidth + 11, '3')
-        var hole4 = drawHole(ballFieldWidth / 2 + 5 * ballWidth, 30, ballWidth + 7, '4')
-        var hole5 = drawHole(ballFieldWidth / 2 - 5 * ballWidth, 30, ballWidth + 4, '5')
-
-        //we create a circle
-        //var userCircle = snapBall.circle(lx, ly, ballWidth);
-        var userCircle = snapBall.circle(lx, ly, ballWidth);
-
-        //we give the circle the color of red
-        userCircle.attr({
-            fill: 'r()#FF0000-#B30000',//'FF0000''#D40404',
-            stroke: '#000',
-
-            strokeWidth: '1'
-        })
-
-        // We make the ball draggable
-        userCircle.drag(moveFnc, startFnc, endFnc);
-    };
-
-
-
-
+        //console.log('lx:' + lx + ', ly:' + ly);
+        //console.log('ox:' + ox + ', oy:' + oy);
+    }
 
 }
 
