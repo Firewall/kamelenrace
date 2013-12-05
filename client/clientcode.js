@@ -230,9 +230,9 @@ if (Meteor.isClient) {
     }
 
     // The ball goes to the middle of the hole
-    function ballInHole1() {
+    function ballInHole(hole) {
         ball.undrag();  // removes all the drag features, but all the following drags won't be executed
-        ball.animate({cx: hole1MiddlepointX - lx, cy:hole1MiddlepointY - ly, r:0}, 1000);
+        ball.animate({cx: hole.middlepointX - lx, cy:hole.middlepointY - ly, r:0}, 1000);
         ball = resetBall(); // he doesn't reset the drag function because of the .undrag()
     }
 
@@ -240,7 +240,7 @@ if (Meteor.isClient) {
     function checkIfAboveHole (hole) {
         if(hole.radius > getDistance(lx, ly, hole.middlepointX, hole.middlepointY)){
             console.log('The ball is above hole ' + hole.nr);
-            //ballInHole1();
+            ballInHole(hole);
         }
     }
 
