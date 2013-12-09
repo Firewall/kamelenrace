@@ -431,59 +431,236 @@ if (Meteor.isClient) {
 // ----------------------------------------------------------------------------
 // All animation for the ballThrowLocation
 
+    // Gives us a "class" of a circle where we can use all the properties
+    function Circle(middlepointX, middlepointY, radius, nr) {
+        this.middlepointX = middlepointX;
+        this.middlepointY = middlepointY;
+        this.radius = radius;
+        this.nr = nr;
+    }
+
+    // We declare and/or initialize the fields
+    var snapobj,
+        canvas,
+        holesArray,
+        ball, ballRadius = 20,
+        ballFieldWidth, ballFieldHeight,
+        vx = 0.001, vy = 0.1,
+        bounce = -0.5, bounceCount = 5, currentBounce = 0,
+        gravity = 0.02,
+        isMouseDown = false,
+        oldX, oldY,
+        time, oldTime,
+        timer,
+        isAboveHole = false;
+
+    // we are going to add animation to the ball
+    // after the element has been rendered
+    Template.ball.rendered = function () {
+
+        if (!this._rendered) {
+            this._rendered = true;
+
+            // the snap object with width and height
+            snapobj = Snap('#ballTrowLocation');
+            ballFieldWidth = $('#ballTrowLocation').width();
+            ballFieldHeight = $('#ballTrowLocation').height();
+
+            // we make all the holes
+            holesArray = new Array();
+            holesArray[0] = new Circle(ballFieldWidth / 2, 130, ballRadius + 20, '1');
+            holesArray[1] = new Circle(ballFieldWidth / 2 - 2.5 * ballRadius, 70, ballRadius + 15, '2');
+            holesArray[2] = new Circle(ballFieldWidth / 2 + 2.5 * ballRadius, 70, ballRadius + 11, '3');
+            holesArray[3] = new Circle(ballFieldWidth / 2 + 5 * ballRadius, 30, ballRadius + 7, '4');
+            holesArray[4] = new Circle(ballFieldWidth / 2 - 5 * ballRadius, 30, ballRadius + 4, '5');
+
+            //we show the holes at the top
+            var i;
+            for (i = 0; i < holesArray.length; i++) {
+                var hole = snapobj.circle(holesArray[i].middlepointX, holesArray[i].middlepointY, holesArray[i].radius);
+                hole.attr({
+                    fill: '#C7C7C7',
+                    stroke: '#000',
+                    strokeWidth: '3'
+                });
+                var text = snapobj.text(holesArray[i].middlepointX - 7, holesArray[i].middlepointY + 10, holesArray[i].nr);
+                text.attr({
+                    fill: '#fff',
+                    'font-size': '30px',
+                    'font-weight': 'bold'
+                });
+            }
+
+            // we make the ball
+            ball = snapobj.circle(ballFieldWidth / 2, 600, ballRadius);
+            ball.attr({
+                fill: 'r()#FF0000-#B30000',
+                stroke: '#000',
+                strokeWidth: '1'
+            });
+
+            // we make the canvas
+            canvas = snapobj.rect(0, 0, ballFieldWidth, ballFieldHeight)
+            canvas.attr({
+                fill: '#999',
+                opacity: 0.0
+            });
+
+
+            // Eventlistener for when there is a click on the canvas
+            canvas.mousedown(function () {
+                isMouseDown = true;
+                oldX = ball.node.cx.baseVal.value;
+                oldY = ball.node.cy.baseVal.value;
+                oldTime = 0;
+                time = Date.now();
+
+                canvas.mouseup(onMouseUp);
+                canvas.mousemove(onMouseMove);
+            });
+            timer = setTimeout(throwBall, 100);
+        }
+    }
+
     // the code for drawing a hole at the top
-    function drawHole(x, y, r, number){
-        var hole = snapBall.circle(x, y, r);
+    function drawHole(x, y, r, number) {
+        var hole = snapobj.circle(x, y, r);
         hole.attr({
             fill: '#C7C7C7',
             stroke: '#000',
             strokeWidth: '3'
         });
-        var text = snapBall.text(x - 7, y + 10, number);
+        var text = snapobj.text(x - 7, y + 10, number);
         text.attr({
             fill: '#fff',
             'font-size': '30px',
             'font-weight': 'bold'
         });
-        return hole;
     }
 
+    // the handler when the mouse is moving
+    function onMouseMove(mouseEvent) {
+        // we keep the time
+        oldTime = time;
+        time = Date.now();
 
-    // we are going to animate the ball
-    // after the element has been rendered
-    Template.ball.rendered = function() {
+        // we save the old position
+        oldX = ball.node.cx.baseVal.value;
+        oldY = ball.node.cy.baseVal.value;
 
-        //define some all used variables
-        var ballFieldWidth = $('#ballTrowLocation').width();
-        var ballWidth = 20;
+        // calculating the velocity
+        vx = (mouseEvent.offsetX - oldX) / (time - oldTime);
+        vy = (mouseEvent.offsetY - oldY) / (time - oldTime);
 
-        //select the canvas to add snaps
-        snapBall = Snap('#ballTrowLocation');
+        // animate the ball to the current mouse position
+        ball.animate({
+            cx: mouseEvent.offsetX,
+            cy: mouseEvent.offsetY
+        }, 1);
+    }
 
-        //we make the holes at the top
-        var hole1 = drawHole(ballFieldWidth / 2, 130, ballWidth + 20, '1')
-        var hole2 = drawHole(ballFieldWidth / 2 - 2.5 * ballWidth, 70, ballWidth + 15, '2')
-        var hole3 = drawHole(ballFieldWidth / 2 + 2.5 * ballWidth, 70, ballWidth + 11, '3')
-        var hole4 = drawHole(ballFieldWidth / 2 + 5 * ballWidth, 30, ballWidth + 7, '4')
-        var hole5 = drawHole(ballFieldWidth / 2 - 5 * ballWidth, 30, ballWidth + 4, '5')
+    // the handler when the mouse is going up
+    function onMouseUp() {
+        isMouseDown = false;
+        canvas.unmouseup(onMouseUp);
+        canvas.unmousemove(onMouseMove);
 
-        //we create a circle
-        var userCircle = snapBall.circle(ballFieldWidth / 2, 600, ballWidth);
+        currentBounce = 0;
+        throwBall()
+    }
 
-        //we give the circle the color of red
-        userCircle.attr({
-            fill: 'r()#FF0000-#B30000',//'FF0000''#D40404',
-            stroke: '#000',
+    // Animation of throwing the ball
+    function throwBall() {
+        if (isMouseDown == false) {
+            // Check if the ball is above a hole
+            var i;
+            for (i = 0; i < holesArray.length; i++) {
+                if (holesArray[i].radius > getDistance(ball.node.cx.baseVal.value, ball.node.cy.baseVal.value, holesArray[i].middlepointX, holesArray[i].middlepointY)) {
+                    isAboveHole = true;
+                    console.log('The ball is above hole ' + holesArray[i].nr);
+                    ballGoesInHole(holesArray[i]);
+                    return;
+                }
+            }
 
-            strokeWidth: '1'
-        })
+            // If not above a hole, animate the throwing
+            if (isAboveHole == false) {
 
-        userCircle.drag();
-    };
+                // the interval of the animation
+                var interval = 40;
 
+                // When the ball hits a border of the field,
+                // it bounces back
+                if (ball.node.cx.baseVal.value - ballRadius < 0) {
+                    ball.node.cx.baseVal.value = 0 + ballRadius;
+                    vx *= bounce;
+                }
+                else if (ball.node.cx.baseVal.value + ballRadius > ballFieldWidth) {
+                    ball.node.cx.baseVal.value = ballFieldWidth - ballRadius;
+                    vx *= bounce;
+                }
+                if (ball.node.cy.baseVal.value - ballRadius < 0) {
+                    ball.node.cy.baseVal.value = 0 + ballRadius;
+                    vy *= bounce;
+                }
+                else if (ball.node.cy.baseVal.value + ballRadius > ballFieldHeight) {
+                    ball.node.cy.baseVal.value = ballFieldHeight - ballRadius;
+                    vy *= bounce;
+                }
 
+                // animates the ball
+                ball.animate({
+                    cx: ball.node.cx.baseVal.value + vx * interval,
+                    cy: ball.node.cy.baseVal.value + vy * interval
+                }, interval);
 
+                // if the ball is at the bottom of the field, add a bounce
+                if (vy < 0.03 && vy > -0.03 && vx < 0.03 && vx > -0.03 &&
+                    ball.node.cy.baseVal.value > ballFieldHeight - ballRadius - 10) {
+                    currentBounce++;
+                }
 
+                // if the current amount of bounces is lesser than the allowed bounceCount -> bounce
+                // else the ball stays still
+                if (currentBounce < bounceCount) {
+                    vy += gravity;
+                    timer = setTimeout(throwBall, interval);
+                }
+                else {
+                    currentBounce = 0;
+                }
+            }
+        }
+    }
+
+    // Gets the distance between 2 points
+    // The parameters are the coordinates of those 2 points
+    function getDistance(x1, y1, x2, y2){
+        return Math.sqrt((x2 -x1) * (x2 -x1) + (y2 - y1) * (y2 - y1));
+    }
+
+    // The ball goes to the middle of the hole
+    function ballGoesInHole(hole) {
+        ball.animate({cx: hole.middlepointX, cy:hole.middlepointY, r:0}, 1000);
+        setTimeout(resetBall, 1000)
+    }
+
+    // Resets the ball
+    function resetBall() {
+        // the velocity of the ball
+        vx = 0.001;
+        vy = 0.1;
+
+        // the ball is not above a hole
+        isAboveHole = false;
+
+        // position and radius of the ball
+        ball.animate({cx:ballFieldWidth / 2, cy:600}, 1);
+        ball.animate({r:ballRadius}, 500);
+
+        // animation of the ball
+        setTimeout(throwBall, 600)
+    }
 
 }
 
