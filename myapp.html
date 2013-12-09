@@ -1,5 +1,5 @@
 <head>
-    <title>myapp</title>
+    <title>Kamelenrace</title>
     <link rel="stylesheet" href="css/library.css"/>
     <!--<script src="js/three.js"></script>-->
     <!--<script src="js/ColladaLoader.js"></script>-->
@@ -20,37 +20,37 @@
 
 <template name="hello">
     {{greeting}}
-    <div id="backgroundRaceField">
-        <div class="lane">
-            <p>lane 1</p>
+    <button id="btnMoveCamel" type="button">Run camel!</button>
+    <label>Distance : (tussen 0 en 590,590 is de afstand van heel de baan)</label><input type="text" id="txtboxDistance"   />
+    <label>Speed : (in milisec)</label><input type="text" id="txtboxSpeed"   />
 
-            <div class="desertBackground"></div>
-            <div class="desertForeground"></div>
-        </div>
-        <div id=player1></div>
-        <div class="lane">
-            <p>lane 2</p>
 
-            <div class="desertBackground"></div>
-            <div class="desertForeground"></div>
-        </div>
-        <div id=player2></div>
+    <svg id="backgroundRaceField">
 
-        <div class="lane">
-            <p>lane 3</p>
+               <!-- <div class="desertBackground"></div>
+                <div class="desertForeground"></div>-->
+            <!--<div id="player1"></div>-->
+            <!--<div class="lane">
+              <!--  <p>lane 2</p>
 
-            <div class="desertBackground"></div>
-            <div class="desertForeground"></div>
-        </div>
-        <div id=player3></div>
 
-        <div class="laneEnd">
-            <p>lane 4</p>
-            <!--<div class="desertBackground"></div>-->
-            <!--<div class="desertForeground"></div>-->
-        </div>
-        <div id=player4></div>
-    </div>
+            </div>
+            <!--<div id=player2></div>-->
+
+            <!--<div class="lane">
+                <p>lane 3</p>
+
+
+            </div>
+            <!--<div id=player3></div>-->
+
+            <!--<div class="laneEnd">
+                <p>lane 4</p>
+                <!--<div class="desertBackground"></div>-->
+                <!--<div class="desertForeground"></div>-->
+           <!-- </div>
+            <!--<div id=player4></div>-->
+    </svg>
 </template>
 
 <template name="ball">
