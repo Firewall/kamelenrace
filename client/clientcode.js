@@ -13,21 +13,23 @@ if (Meteor.isClient) {
     });
 
 
+    //Home page JS
     Template.home.events({
       'click #btnSetUsername': function () {
-          Session.set('Username', $('#txtSetUsername').val());
-          $('#txtSetUsername').siblings('h2').remove();
-          $('#txtSetUsername').parent('p').append('<h2>Your username is ' + Session.get('Username') + '</h2>')
+          //Set the username in the session
+          if($('#txtSetUsername').val() != ''){
+              Session.set('Username', $('#txtSetUsername').val());
+              //Remove previous h2 & link
+              $('#txtSetUsername').siblings('h2').remove();
+              $('#txtSetUsername').siblings('a').remove();
+              //Display Username & Link
+              $('#txtSetUsername').parent('p').append('<h2>Your username is ' + Session.get('Username') + '</h2><a href="/game/5">Go to game</a>');
+          }
     }});
 
 
 
-    //var player_id = Players.insert({name: '', idle: false});
-
-    /*Template.hello.greeting = function () {
-
-     return "";
-     };*/
+    //Game page JS
 
     //camel variabels
 
