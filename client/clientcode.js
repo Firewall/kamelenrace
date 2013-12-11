@@ -1,5 +1,27 @@
 if (Meteor.isClient) {
 
+
+    //Routing
+    Meteor.Router.add({
+      '/': 'home',
+
+      '/game/:_id': { to: 'game', and: function(id) {
+            Session.set('gameId', id);
+         }}
+      ,
+      '*': 'not_found'
+    });
+
+
+    Template.home.events({
+      'click #btnSetUsername': function () {
+          Session.set('Username', $('#txtSetUsername').val());
+          $('#txtSetUsername').siblings('h2').remove();
+          $('#txtSetUsername').parent('p').append('<h2>Your username is ' + Session.get('Username') + '</h2>')
+    }});
+
+
+
     //var player_id = Players.insert({name: '', idle: false});
 
     /*Template.hello.greeting = function () {
@@ -50,13 +72,6 @@ if (Meteor.isClient) {
             var lane2 = s.line(0, 250, 700,250);
             var lane3 = s.line(0, 370, 700,370);
 
-
-
-
-
-
-
-
             lane1.attr({
                 stroke: "#000",
                 strokeWidth: 5
@@ -73,22 +88,17 @@ if (Meteor.isClient) {
             });
 
 
-
-
             //loading svg's of camels + background and foreground of desert
             Snap.load("../img/DesertForeground.svg", onDesertForegroundLane1SVGLoaded ) ;
             Snap.load("../img/DesertForeground.svg", onDesertForegroundLane2SVGLoaded ) ;
             Snap.load("../img/DesertForeground.svg", onDesertForegroundLane3SVGLoaded ) ;
             Snap.load("../img/DesertForeground.svg", onDesertForegroundLane4SVGLoaded ) ;
 
+            //load palm tree's
             Snap.load("../img/Palm_Tree.svg", onPalmThree1SVGLoaded ) ;
             Snap.load("../img/Palm_Tree.svg", onPalmThree2SVGLoaded ) ;
             Snap.load("../img/Palm_Tree.svg", onPalmThree3SVGLoaded ) ;
             Snap.load("../img/Palm_Tree.svg", onPalmThree4SVGLoaded ) ;
-
-
-
-
 
 
             Snap.load("../img/BlueCamel.svg", onBlueCamelSVGLoaded ) ;
@@ -104,17 +114,13 @@ if (Meteor.isClient) {
             Snap.load("../img/DesertBackground.svg", onDesertBackgroundLane3SVGLoaded ) ;
             Snap.load("../img/DesertBackground.svg", onDesertBackgroundLane4SVGLoaded ) ;
 
-            //var test = s.text(100, 50, "Desert camel racing");
-
-
-
-
-
             //handwriten Camelracing
             var paper1 = Snap();
             paper1.attr({
                 backgroundColor:"red"
             })
+
+            //Code voor CAMELRACING Text
 
             //var path = paper1.path('<svg xmlns="http://www.w3.org/2000/svg" width="612" height="792" viewBox="0, 0, 612, 792"><g stroke-width="3" stroke-linecap="round" fill="none"><path d="M227.898 205.645c9.345-2.205 18.655-5.434 28.602-6.145 15.723-1.123 32.656 19.896 16 31-21.567 14.378-51.678-2.644-39-28" stroke="#000"/><path d="M348.977 209.035c5.98 1.005 12.736.785 16.523 6.465 2.639 3.958 1 13.752 1 18 0 53.33-62.295-26-18-26" stroke="#000"/><path d="M271.07 268.594c1.682 24.559 11.359 37.977 32.43 16.906" stroke="#000"/><path d="M236.336 303.59c22.07 8.407 40.317 11.526 63.164 3.91" stroke="#000"/><path d="M235.16 305.023c21.892 13.195 44.064 35.89 64.34 5.477" stroke="#000"/><path d="M222.207 287.938c1.745 18.821.613 42.622 10.293 59.562 3.899 6.823 11.16 10.192 16 16 2.45 2.94 4.448 10.483 9 12 3.609 1.203 4.336-5.336 6-7 8.001-8.001 19.443-11.443 28-20 14.818-14.818 34.424-25.107 51-38 22.628-17.6 63.734-87.533 49-117-20.664-41.327-44.485-33.186-83-38-17.857-2.232-42.126-12.864-61-5-13.925 5.802-28.358 27.073-33 41-16.631 49.892 10 70.987 10 114" stroke="#000"/><path d="M234.598 354.195c2.828 26.948-11.896 48.7-20.098 73.305" stroke="#000"/><path d="M277.727 358.191c-3.237 13.603 3.013 23.029 6.773 34.309" stroke="#000"/><path d="M281.16 384.844c35.333-2.296 71.845 17.414 91.34 46.656" stroke="#000"/><path d="M228.859 395.32c-23.976 8.344-60.475 9.825-80.359 28.18-4.556 4.206-6.939 10.314-11 15-7.47 8.62-13.679 13.198-18 24-1.384 3.46-2 14.727-2 11v-5" stroke="#000"/><path d="M211.164 196.125c-2.415 1.772-7.533-1.223-9.664.375-1.53 1.147-3.948 59.052-3 60 3.671 3.671 12.479-.826 16-2" stroke="#000"/><path d="M393.191 221.207c2.132 1.452 5.218-.961 7.309.293 3.663 2.198-11.37 64.79-18 67-5.103 1.701-10.686-7.529-13-11" stroke="#000"/><path d="M349.98 223.035c-2.877 14.76 2.52-16.554 2.52 5.465 0 4.164-18.662-9-2-9" stroke="#000"/><path d="M250.902 214.777c-3.059 1.869 2.063 12.258 4.598 9.723l-1-7c.686-.686 13.02-1.02 9 3-3.622 3.622-6.23-14.31-10-3-1.628 4.884 1.962 11.057 6 5" stroke="#000"/><path d="M330.59 196.125c10.659 2.187 22.559-2.075 32.91 1.375" stroke="#000"/><path d="M282.246 195.691c-12.226.837-21.529-6.452-32.746-10.191" stroke="#000"/><path d="M200.297 238.906c-9.701-2.567-15.171 4.828-22.797 9.594-18.835 11.772-8.657 45.61 19 41 14.715-2.452 22.053-38.649 6-44" stroke="#0000D1"/><path d="M384.539 266.945c23.226-1.941 24.826 43.933 4.961 50.555-17.075 5.692-35.128-29.581-3-51" stroke="#0000D1"/><path d="M273.379 320.066c-20.603 6.129 15.989 21.236 2.121.434" stroke="#0000D1"/></g></svg>');
             var path = paper1.path('<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="960px" height="560px" viewBox="0 0 960 560" enable-background="new 0 0 960 560" xml:space="preserve">' +
@@ -176,15 +182,6 @@ if (Meteor.isClient) {
                 visibility:'hidden'
             });
 
-
-
-
-
-
-
-
-
-
             //functions for adding camels to field + scaling svg
             function onBlueCamelSVGLoaded( f ){
                 camelBlue = s.group().transform(startLocationBlue).append( f );
@@ -195,31 +192,22 @@ if (Meteor.isClient) {
 
             }
             function testing( f ){
-
-
                 camelTest = s.group().transform("t"+[510,0]+"s"+[0.25]).attr({visibility:'hidden'}).append( f );
                 camelTest.attr({
-
                     //visibility:'hidden'
                 });
-
-
             }
-
-
-
 
             function onGreenCamelSVGLoaded( f ){
                 camelGreen = s.group().transform(startLocationGreen).append( f );
-
             }
+
             function onYellowCamelSVGLoaded( f ){
                 camelYellow = s.group().transform(startLocationYellow).append( f );
-
             }
+
             function onRedCamelSVGLoaded( f ){
                 camelRed = s.group().transform(startLocationRed).append( f );
-
             }
 
             //adding desert foreground and backgrounds
@@ -403,11 +391,10 @@ if (Meteor.isClient) {
 
     Template.entry.events[okcancel_events('#chatInput')] = make_okcancel_handler({
         ok: function (text, event) {
-            var nameEntry = document.getElementById('chatInput');
-            if (nameEntry.value != "") {
+            if ($('chatInput').val() != "") {
                 var ts = Date.now() / 1000;
                 Messages.insert({
-                        name: nameEntry.value,
+                        name: Session.get('Username'),
                         message: text,
                         time: ts},
                     function () {

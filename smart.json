@@ -1,5 +1,6 @@
 {
   "packages": {
-    "snap-svg": {}
+    "snap-svg": {},
+    "router": {}
   }
 }
