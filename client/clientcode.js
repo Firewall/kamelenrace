@@ -337,20 +337,9 @@ if (Meteor.isClient) {
             opacity: 0.0
         });
 
+        canvas.hover(hoverInCanvas, hoverOutCanvas);
 
-        // Eventlistener for when there is a click on the canvas
-        canvas.mousedown(function (mouseEvent) {
-            if (getDistance(mouseEvent.offsetX, mouseEvent.offsetY, ball.node.cx.baseVal.value, ball.node.cy.baseVal.value) <= ballRadius) {
-                isMouseDown = true;
-                oldX = ball.node.cx.baseVal.value;
-                oldY = ball.node.cy.baseVal.value;
-                oldTime = 0;
-                time = Date.now();
 
-                canvas.mouseup(onMouseUp);
-                canvas.mousemove(onMouseMove);
-            }
-        });
         timer = setTimeout(throwBall, 100);
 
     }
@@ -369,6 +358,34 @@ if (Meteor.isClient) {
             'font-size': '30px',
             'font-weight': 'bold'
         });
+    }
+
+    function hoverInCanvas() {
+        // Eventlistener for when there is a click on the canvas
+        canvas.mousedown(onMouseDown);
+    }
+
+    // Method for when the mouse is down
+    function onMouseDown(mouseEvent) {
+        // If the mouse is on the ball, then you can move the ball
+        if (getDistance(mouseEvent.offsetX, mouseEvent.offsetY, ball.node.cx.baseVal.value, ball.node.cy.baseVal.value) <= ballRadius) {
+            isMouseDown = true;
+            oldX = ball.node.cx.baseVal.value;
+            oldY = ball.node.cy.baseVal.value;
+            oldTime = 0;
+            time = Date.now();
+
+            // add additional event listeners for dragging
+            canvas.mouseup(onMouseUp);
+            canvas.mousemove(onMouseMove);
+        }
+    }
+
+    // When the mouse hovers out of the canvas, removes al the eventlisteners
+    // The ball will be thrown
+    function hoverOutCanvas() {
+        onMouseUp();
+        canvas.unmousedown(onMouseDown);
     }
 
 // the handler when the mouse is moving
