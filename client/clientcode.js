@@ -322,6 +322,13 @@ if (Meteor.isClient) {
             });
         }
 
+        //adding the border line
+        var line = snapobj.line(0, 500, ballFieldWidth, 500);
+        line.attr({
+            stroke: "#000",
+            strokeWidth: 5
+        });
+
         // we make the ball
         ball = snapobj.circle(ballFieldWidth / 2, 600, ballRadius);
         ball.attr({
@@ -331,14 +338,15 @@ if (Meteor.isClient) {
         });
 
         // we make the canvas
-        canvas = snapobj.rect(0, 0, ballFieldWidth, ballFieldHeight)
+        canvas = snapobj.rect(0, 500, ballFieldWidth, ballFieldHeight - 500)
         canvas.attr({
             fill: '#999',
             opacity: 0.0
         });
 
+        // we add eventlisteners for when the mouse is hovering over the canvas
+        // the ball can be dragged
         canvas.hover(hoverInCanvas, hoverOutCanvas);
-
 
         timer = setTimeout(throwBall, 100);
 
@@ -368,7 +376,8 @@ if (Meteor.isClient) {
     // Method for when the mouse is down
     function onMouseDown(mouseEvent) {
         // If the mouse is on the ball, then you can move the ball
-        if (getDistance(mouseEvent.offsetX, mouseEvent.offsetY, ball.node.cx.baseVal.value, ball.node.cy.baseVal.value) <= ballRadius) {
+        if (getDistance(mouseEvent.offsetX, mouseEvent.offsetY, ball.node.cx.baseVal.value, ball.node.cy.baseVal.value) <= ballRadius
+            && mouseEvent.offsetY > 450) {
             isMouseDown = true;
             oldX = ball.node.cx.baseVal.value;
             oldY = ball.node.cy.baseVal.value;
@@ -398,9 +407,17 @@ if (Meteor.isClient) {
         oldX = ball.node.cx.baseVal.value;
         oldY = ball.node.cy.baseVal.value;
 
+        // we calculate delta time
+        dTime = time - oldTime;
+
+        // if dTime has a too low value, we set it to the minimum value
+        if(dTime < 20){
+            dTime = 20;
+        }
+
         // calculating the velocity
-        vx = (mouseEvent.offsetX - oldX) / (time - oldTime);
-        vy = (mouseEvent.offsetY - oldY) / (time - oldTime);
+        vx = (mouseEvent.offsetX - oldX) / dTime;
+        vy = (mouseEvent.offsetY - oldY) / dTime;
 
         // animate the ball to the current mouse position
         ball.animate({
@@ -437,7 +454,7 @@ if (Meteor.isClient) {
             if (isAboveHole == false) {
 
                 // the interval of the animation
-                var interval = 40;
+                var interval = 50;
 
                 // When the ball hits a border of the field,
                 // it bounces back
@@ -504,7 +521,7 @@ if (Meteor.isClient) {
 
         //Reset the ball location
         ball.animate({cx: hole.middlepointX, cy: hole.middlepointY, r: 0}, 1000);
-        setTimeout(resetBall, 1000)
+        setTimeout(resetBall, 1000);
     }
 
 // Resets the ball
