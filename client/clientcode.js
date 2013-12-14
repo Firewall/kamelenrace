@@ -339,15 +339,17 @@ if (Meteor.isClient) {
 
 
         // Eventlistener for when there is a click on the canvas
-        canvas.mousedown(function () {
-            isMouseDown = true;
-            oldX = ball.node.cx.baseVal.value;
-            oldY = ball.node.cy.baseVal.value;
-            oldTime = 0;
-            time = Date.now();
+        canvas.mousedown(function (mouseEvent) {
+            if (getDistance(mouseEvent.offsetX, mouseEvent.offsetY, ball.node.cx.baseVal.value, ball.node.cy.baseVal.value) <= ballRadius) {
+                isMouseDown = true;
+                oldX = ball.node.cx.baseVal.value;
+                oldY = ball.node.cy.baseVal.value;
+                oldTime = 0;
+                time = Date.now();
 
-            canvas.mouseup(onMouseUp);
-            canvas.mousemove(onMouseMove);
+                canvas.mouseup(onMouseUp);
+                canvas.mousemove(onMouseMove);
+            }
         });
         timer = setTimeout(throwBall, 100);
 
