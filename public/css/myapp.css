@@ -101,7 +101,8 @@ body{
     float: left;
     border-radius:25px;
     margin: 5px;
-    background-color: #ffd04c;
+    /*background-color: #ffd04c;*/
+    background-color: #fff;
 
 }
 
@@ -113,17 +114,14 @@ body{
     margin: 6px auto 3px auto;
     resize: none;
 
-    background-color: #f8ff62;
+    /*background-color: #f8ff62;*/
+    background-color: #fff;
     text-align: left;
     text-indent: 9px;
     padding-top: 5px;
 
 
     overflow: auto;
-
-
-
-
 }
 
 #chatInput{
@@ -132,7 +130,8 @@ body{
     height: 20px;
     width: 680px;
     text-indent: 10px;
-    background-color: #f8ff62;
+    background-color: #fff;
+    /*background-color: #f8ff62;*/
     margin-top: 5px;
 }
 
