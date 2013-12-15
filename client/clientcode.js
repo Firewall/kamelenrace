@@ -359,16 +359,16 @@ if (Meteor.isClient) {
         // Makes the wooden background
         var counter = 0;
         var i;
-        for (i=0; i<ballFieldWidth; i+=15){
+        for (i = 0; i < ballFieldWidth; i += 15) {
 
             // If i is even, create an indent of -120
             // and make then pieces of wood
             var j;
-            for ((i%30 == 0 ? j=0 : j=-120);
-                 j<ballFieldHeight; j+=80){
+            for ((i % 30 == 0 ? j = 0 : j = -120);
+                 j < ballFieldHeight; j += 80) {
                 var woodblock = snapobj.rect(i, j, 16, 80);
                 var colour;
-                switch(counter%7){
+                switch (counter % 7) {
                     case 0:
                         colour = '#D7AD7B'
                         break;
@@ -394,10 +394,30 @@ if (Meteor.isClient) {
                         colour = '#000'
                 }
                 woodblock.attr({
-                    fill:colour
+                    fill: colour
                 });
                 counter++;
             }
+
+            // We show dots beneath the line of the throwing area
+            if (i > 0) {
+                snapobj.circle(i, 515, 2);
+                snapobj.circle(i, ballFieldHeight - 30, 2);
+                snapobj.circle(i, ballFieldHeight - 50, 2);
+            }
+        }
+
+        var spacearrow = ballFieldWidth / 8;
+        var heightarrow = 500;
+        var i;
+        for (i = spacearrow; i <= ballFieldWidth - spacearrow; i += spacearrow) {
+            if (ballFieldWidth / 2 >= i) {
+                heightarrow -= 20;
+            }
+            else {
+                heightarrow += 20;
+            }
+            snapobj.polygon([i - 5, heightarrow, i, heightarrow - 20, i + 5, heightarrow]);
         }
     }
 
@@ -460,7 +480,7 @@ if (Meteor.isClient) {
         dTime = time - oldTime;
 
         // if dTime has a too low value, we set it to the minimum value
-        if(dTime < 20){
+        if (dTime < 20) {
             dTime = 20;
         }
 
