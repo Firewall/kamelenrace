@@ -297,6 +297,9 @@ if (Meteor.isClient) {
         ballFieldWidth = $('#ballTrowLocation').width();
         ballFieldHeight = $('#ballTrowLocation').height();
 
+        // Shows the background of the ball throwing location
+        showBackground();
+
         // we make all the holes
         holesArray = new Array();
         holesArray[0] = new Circle(ballFieldWidth / 2, 130, ballRadius + 20, '1');
@@ -350,6 +353,52 @@ if (Meteor.isClient) {
 
         timer = setTimeout(throwBall, 100);
 
+    }
+
+    function showBackground() {
+        // Makes the wooden background
+        var counter = 0;
+        var i;
+        for (i=0; i<ballFieldWidth; i+=15){
+
+            // If i is even, create an indent of -120
+            // and make then pieces of wood
+            var j;
+            for ((i%30 == 0 ? j=0 : j=-120);
+                 j<ballFieldHeight; j+=80){
+                var woodblock = snapobj.rect(i, j, 16, 80);
+                var colour;
+                switch(counter%7){
+                    case 0:
+                        colour = '#D7AD7B'
+                        break;
+                    case 1:
+                        colour = '#D8B484'
+                        break;
+                    case 2:
+                        colour = '#DEB879'
+                        break;
+                    case 3:
+                        colour = '#D9B180'
+                        break;
+                    case 4:
+                        colour = '#E1BC85'
+                        break;
+                    case 5:
+                        colour = '#D7B182'
+                        break;
+                    case 6:
+                        colour = '#DFBF82'
+                        break;
+                    default:
+                        colour = '#000'
+                }
+                woodblock.attr({
+                    fill:colour
+                });
+                counter++;
+            }
+        }
     }
 
 // the code for drawing a hole at the top
