@@ -302,11 +302,21 @@ if (Meteor.isClient) {
 
         // we make all the holes
         holesArray = new Array();
-        holesArray[0] = new Circle(ballFieldWidth / 2, 130, ballRadius + 20, '1');
+        holesArray[0] = new Circle(ballFieldWidth / 2, 130, ballRadius + 4, '1');
+        holesArray[1] = new Circle(ballFieldWidth / 2 - 2.5 * ballRadius, 105, ballRadius + 4, '1');
+        holesArray[2] = new Circle(ballFieldWidth / 2 + 2.5 * ballRadius, 105, ballRadius + 4, '1');
+        holesArray[3] = new Circle(ballFieldWidth / 2 - 5.5 * ballRadius, 25, ballRadius + 4, '2');
+        holesArray[4] = new Circle(ballFieldWidth / 2 + 5.5 * ballRadius, 25, ballRadius + 4, '2');
+        holesArray[5] = new Circle(ballFieldWidth / 2 - 2.75 * ballRadius, 25, ballRadius + 4, '3');
+        holesArray[6] = new Circle(ballFieldWidth / 2 + 2.75 * ballRadius, 25, ballRadius + 4, '3');
+        holesArray[7] = new Circle(ballFieldWidth / 2, 25, ballRadius + 4, '4');
+        holesArray[8] = new Circle(ballFieldWidth / 2, 77.5, ballRadius + 4, '5');
+
+        /*holesArray[0] = new Circle(ballFieldWidth / 2, 130, ballRadius + 20, '1');
         holesArray[1] = new Circle(ballFieldWidth / 2 - 2.5 * ballRadius, 70, ballRadius + 15, '2');
         holesArray[2] = new Circle(ballFieldWidth / 2 + 2.5 * ballRadius, 70, ballRadius + 11, '3');
         holesArray[3] = new Circle(ballFieldWidth / 2 + 5 * ballRadius, 30, ballRadius + 7, '4');
-        holesArray[4] = new Circle(ballFieldWidth / 2 - 5 * ballRadius, 30, ballRadius + 4, '5');
+        holesArray[4] = new Circle(ballFieldWidth / 2 - 5 * ballRadius, 30, ballRadius + 4, '5');*/
 
         //we show the holes at the top
         var i;
