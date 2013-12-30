@@ -1,15 +1,24 @@
 <template name="home">
     <svg id="TitleText"></svg>
-     <p>
-         <label for="txtSetUsername">Pick a username:</label>
-         <input type="text" id="txtSetUsername">
-         <br>
+    <section id="setUsernameBox">
+        <p>
+            <label for="txtSetUsername">Pick a username:</label>
+            <input type="text" id="txtSetUsername">
+            <br>
 
-         <label for="txtSetPlayerId">Pick a playerId:</label>
-         <input type="text" id="txtSetPlayerId">
-         <br>
-         <input type="submit" value="Set!" id="btnSetUsername" />
+            <label for="txtSetPlayerId">Pick a playerId:</label>
+            <input type="text" id="txtSetPlayerId">
+            <br>
+            <input type="submit" value="Set!" id="btnSetUsername"/>
+        </p>
+    </section>
+
+    {{> welcomeCamel}}
 
 
-     </p>
+</template>
+
+<template name="welcomeCamel">
+    <svg id="camelRunningBy">
+    </svg>
 </template>

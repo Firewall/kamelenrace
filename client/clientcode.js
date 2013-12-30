@@ -312,12 +312,6 @@ if (Meteor.isClient) {
         holesArray[7] = new Circle(ballFieldWidth / 2, 25, ballRadius + 4, '4');
         holesArray[8] = new Circle(ballFieldWidth / 2, 77.5, ballRadius + 4, '5');
 
-        /*holesArray[0] = new Circle(ballFieldWidth / 2, 130, ballRadius + 20, '1');
-        holesArray[1] = new Circle(ballFieldWidth / 2 - 2.5 * ballRadius, 70, ballRadius + 15, '2');
-        holesArray[2] = new Circle(ballFieldWidth / 2 + 2.5 * ballRadius, 70, ballRadius + 11, '3');
-        holesArray[3] = new Circle(ballFieldWidth / 2 + 5 * ballRadius, 30, ballRadius + 7, '4');
-        holesArray[4] = new Circle(ballFieldWidth / 2 - 5 * ballRadius, 30, ballRadius + 4, '5');*/
-
         //we show the holes at the top
         var i;
         for (i = 0; i < holesArray.length; i++) {
@@ -689,6 +683,15 @@ if (Meteor.isClient) {
 //
 //        }
 //    };
+
+
+
+/*
+******************************************************************************************
+* Animation for the Home Page
+ */
+
+
 
 
 
