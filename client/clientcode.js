@@ -262,9 +262,11 @@ if (Meteor.isClient) {
         }
     })
 
-
-// ----------------------------------------------------------------------------
-// All animation for the ballThrowLocation
+    /*
+     ******************************************************************************************
+     * All animation for the ballThrowLocation
+     * @author: Ewout Merckx
+     */
 
 // Gives us a "class" of a circle where we can use all the properties
     function Circle(middlepointX, middlepointY, radius, nr) {
@@ -689,9 +691,30 @@ if (Meteor.isClient) {
 /*
 ******************************************************************************************
 * Animation for the Home Page
+* @author: Ewout Merckx
  */
 
+//rendering field
+Template.welcomeCamel.rendered = function () {
 
+    var snapObj = Snap("#camelRunningBy");
+    var welcomeCamel;
+
+    //snapObj.circle(25, 25, 10);
+
+
+
+    // loading the blue camel as a welcome camel
+    Snap.load("../img/BlueCamel.svg", onWelcomeCamelSVGLoaded);
+
+    function onWelcomeCamelSVGLoaded(f) {
+        welcomeCamel = snapObj.group().transform("t" + [0, 50] + "s" + [1.7, 1]).append(f);
+    }
+
+
+
+
+}
 
 
 
