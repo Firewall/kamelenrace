@@ -32,6 +32,7 @@ if (Meteor.isServer) {
             ]
         })
 
+
         //When the server is restarted we clear all the message (Needs to only be when we create a game)
         Messages.remove({});
 

@@ -262,9 +262,11 @@ if (Meteor.isClient) {
         }
     })
 
-
-// ----------------------------------------------------------------------------
-// All animation for the ballThrowLocation
+    /*
+     ******************************************************************************************
+     * All animation for the ballThrowLocation
+     * @author: Ewout Merckx
+     */
 
 // Gives us a "class" of a circle where we can use all the properties
     function Circle(middlepointX, middlepointY, radius, nr) {
@@ -297,13 +299,20 @@ if (Meteor.isClient) {
         ballFieldWidth = $('#ballTrowLocation').width();
         ballFieldHeight = $('#ballTrowLocation').height();
 
+        // Shows the background of the ball throwing location
+        showBackground();
+
         // we make all the holes
         holesArray = new Array();
-        holesArray[0] = new Circle(ballFieldWidth / 2, 130, ballRadius + 20, '1');
-        holesArray[1] = new Circle(ballFieldWidth / 2 - 2.5 * ballRadius, 70, ballRadius + 15, '2');
-        holesArray[2] = new Circle(ballFieldWidth / 2 + 2.5 * ballRadius, 70, ballRadius + 11, '3');
-        holesArray[3] = new Circle(ballFieldWidth / 2 + 5 * ballRadius, 30, ballRadius + 7, '4');
-        holesArray[4] = new Circle(ballFieldWidth / 2 - 5 * ballRadius, 30, ballRadius + 4, '5');
+        holesArray[0] = new Circle(ballFieldWidth / 2, 130, ballRadius + 4, '1');
+        holesArray[1] = new Circle(ballFieldWidth / 2 - 2.5 * ballRadius, 105, ballRadius + 4, '1');
+        holesArray[2] = new Circle(ballFieldWidth / 2 + 2.5 * ballRadius, 105, ballRadius + 4, '1');
+        holesArray[3] = new Circle(ballFieldWidth / 2 - 5.5 * ballRadius, 25, ballRadius + 4, '2');
+        holesArray[4] = new Circle(ballFieldWidth / 2 + 5.5 * ballRadius, 25, ballRadius + 4, '2');
+        holesArray[5] = new Circle(ballFieldWidth / 2 - 2.75 * ballRadius, 25, ballRadius + 4, '3');
+        holesArray[6] = new Circle(ballFieldWidth / 2 + 2.75 * ballRadius, 25, ballRadius + 4, '3');
+        holesArray[7] = new Circle(ballFieldWidth / 2, 25, ballRadius + 4, '4');
+        holesArray[8] = new Circle(ballFieldWidth / 2, 77.5, ballRadius + 4, '5');
 
         //we show the holes at the top
         var i;
@@ -322,6 +331,13 @@ if (Meteor.isClient) {
             });
         }
 
+        //adding the border line
+        var line = snapobj.line(0, 500, ballFieldWidth, 500);
+        line.attr({
+            stroke: "#000",
+            strokeWidth: 5
+        });
+
         // we make the ball
         ball = snapobj.circle(ballFieldWidth / 2, 600, ballRadius);
         ball.attr({
@@ -331,26 +347,84 @@ if (Meteor.isClient) {
         });
 
         // we make the canvas
-        canvas = snapobj.rect(0, 0, ballFieldWidth, ballFieldHeight)
+        canvas = snapobj.rect(0, 500, ballFieldWidth, ballFieldHeight - 500)
         canvas.attr({
             fill: '#999',
             opacity: 0.0
         });
 
+        // we add eventlisteners for when the mouse is hovering over the canvas
+        // the ball can be dragged
+        canvas.hover(hoverInCanvas, hoverOutCanvas);
 
-        // Eventlistener for when there is a click on the canvas
-        canvas.mousedown(function () {
-            isMouseDown = true;
-            oldX = ball.node.cx.baseVal.value;
-            oldY = ball.node.cy.baseVal.value;
-            oldTime = 0;
-            time = Date.now();
-
-            canvas.mouseup(onMouseUp);
-            canvas.mousemove(onMouseMove);
-        });
         timer = setTimeout(throwBall, 100);
 
+    }
+
+    function showBackground() {
+        // Makes the wooden background
+        var counter = 0;
+        var i;
+        for (i = 0; i < ballFieldWidth; i += 15) {
+
+            // If i is even, create an indent of -120
+            // and make then pieces of wood
+            var j;
+            for ((i % 30 == 0 ? j = 0 : j = -120);
+                 j < ballFieldHeight; j += 80) {
+                var woodblock = snapobj.rect(i, j, 16, 80);
+                var colour;
+                switch (counter % 7) {
+                    case 0:
+                        colour = '#D7AD7B'
+                        break;
+                    case 1:
+                        colour = '#D8B484'
+                        break;
+                    case 2:
+                        colour = '#DEB879'
+                        break;
+                    case 3:
+                        colour = '#D9B180'
+                        break;
+                    case 4:
+                        colour = '#E1BC85'
+                        break;
+                    case 5:
+                        colour = '#D7B182'
+                        break;
+                    case 6:
+                        colour = '#DFBF82'
+                        break;
+                    default:
+                        colour = '#000'
+                }
+                woodblock.attr({
+                    fill: colour
+                });
+                counter++;
+            }
+
+            // We show dots beneath the line of the throwing area
+            if (i > 0) {
+                snapobj.circle(i, 515, 2);
+                snapobj.circle(i, ballFieldHeight - 30, 2);
+                snapobj.circle(i, ballFieldHeight - 50, 2);
+            }
+        }
+
+        var spacearrow = ballFieldWidth / 8;
+        var heightarrow = 500;
+        var i;
+        for (i = spacearrow; i <= ballFieldWidth - spacearrow; i += spacearrow) {
+            if (ballFieldWidth / 2 >= i) {
+                heightarrow -= 20;
+            }
+            else {
+                heightarrow += 20;
+            }
+            snapobj.polygon([i - 5, heightarrow, i, heightarrow - 20, i + 5, heightarrow]);
+        }
     }
 
 // the code for drawing a hole at the top
@@ -369,6 +443,35 @@ if (Meteor.isClient) {
         });
     }
 
+    function hoverInCanvas() {
+        // Eventlistener for when there is a click on the canvas
+        canvas.mousedown(onMouseDown);
+    }
+
+    // Method for when the mouse is down
+    function onMouseDown(mouseEvent) {
+        // If the mouse is on the ball, then you can move the ball
+        if (getDistance(mouseEvent.offsetX, mouseEvent.offsetY, ball.node.cx.baseVal.value, ball.node.cy.baseVal.value) <= ballRadius
+            && mouseEvent.offsetY > 450) {
+            isMouseDown = true;
+            oldX = ball.node.cx.baseVal.value;
+            oldY = ball.node.cy.baseVal.value;
+            oldTime = 0;
+            time = Date.now();
+
+            // add additional event listeners for dragging
+            canvas.mouseup(onMouseUp);
+            canvas.mousemove(onMouseMove);
+        }
+    }
+
+    // When the mouse hovers out of the canvas, removes al the eventlisteners
+    // The ball will be thrown
+    function hoverOutCanvas() {
+        onMouseUp();
+        canvas.unmousedown(onMouseDown);
+    }
+
 // the handler when the mouse is moving
     function onMouseMove(mouseEvent) {
         // we keep the time
@@ -379,9 +482,17 @@ if (Meteor.isClient) {
         oldX = ball.node.cx.baseVal.value;
         oldY = ball.node.cy.baseVal.value;
 
+        // we calculate delta time
+        dTime = time - oldTime;
+
+        // if dTime has a too low value, we set it to the minimum value
+        if (dTime < 20) {
+            dTime = 20;
+        }
+
         // calculating the velocity
-        vx = (mouseEvent.offsetX - oldX) / (time - oldTime);
-        vy = (mouseEvent.offsetY - oldY) / (time - oldTime);
+        vx = (mouseEvent.offsetX - oldX) / dTime;
+        vy = (mouseEvent.offsetY - oldY) / dTime;
 
         // animate the ball to the current mouse position
         ball.animate({
@@ -418,7 +529,7 @@ if (Meteor.isClient) {
             if (isAboveHole == false) {
 
                 // the interval of the animation
-                var interval = 40;
+                var interval = 50;
 
                 // When the ball hits a border of the field,
                 // it bounces back
@@ -485,7 +596,7 @@ if (Meteor.isClient) {
 
         //Reset the ball location
         ball.animate({cx: hole.middlepointX, cy: hole.middlepointY, r: 0}, 1000);
-        setTimeout(resetBall, 1000)
+        setTimeout(resetBall, 1000);
     }
 
 // Resets the ball
@@ -574,6 +685,36 @@ if (Meteor.isClient) {
 //
 //        }
 //    };
+
+
+
+/*
+******************************************************************************************
+* Animation for the Home Page
+* @author: Ewout Merckx
+ */
+
+//rendering field
+Template.welcomeCamel.rendered = function () {
+
+    var snapObj = Snap("#camelRunningBy");
+    var welcomeCamel;
+
+    //snapObj.circle(25, 25, 10);
+
+
+
+    // loading the blue camel as a welcome camel
+    Snap.load("../img/BlueCamel.svg", onWelcomeCamelSVGLoaded);
+
+    function onWelcomeCamelSVGLoaded(f) {
+        welcomeCamel = snapObj.group().transform("t" + [0, 50] + "s" + [1.7, 1]).append(f);
+    }
+
+
+
+
+}
 
 
 
