@@ -78,7 +78,7 @@ if (Meteor.isClient) {
                 "stroke-dashoffset": leng
             }).animate({"stroke-dashoffset": 0}, 3000, mina.elastic());
 
-            g.append(raphPathArray[index]);
+             g.append(raphPathArray[index]);
 
         }
 
