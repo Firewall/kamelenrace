@@ -718,6 +718,13 @@ Template.welcomeCamel.rendered = function () {
         camelArray.push(snapObj.group().append(f));
         // we add the group with the loaded svg to our global group
         welcomeCamel.transform("t" + [0, 50] + "s" + [0.3, 0.3]).append(camelArray[imagesLoaded]);
+
+        // we set each camel to invisible
+        camelArray[imagesLoaded].attr({
+            visibility: "hidden"
+        });
+
+        // image that are loaded + 1
         imagesLoaded++;
 
         // If all the camels are loaded, animate them
@@ -729,14 +736,9 @@ Template.welcomeCamel.rendered = function () {
     //Animates the camels
     function animateCamel() {
 
-        // The 2nd camel is set to invisible
-        camelArray[1].attr({
-            visibility: "hidden"
-        });
-
-        // The 3rd camel is set to invisible
-        camelArray[2].attr({
-            visibility: "hidden"
+        // The first camel is set to visible
+        camelArray[0].attr({
+            visibility: "visible"
         });
 
 
