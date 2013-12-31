@@ -705,11 +705,13 @@ Template.welcomeCamel.rendered = function () {
 
 
     // loading the blue camel as a welcome camel
-    Snap.load("../img/BlueCamel.svg", onWelcomeCamelSVGLoaded);
+    Snap.load("../img/runningCamel/camelBase.svg", onWelcomeCamelSVGLoaded);
 
     function onWelcomeCamelSVGLoaded(f) {
-        welcomeCamel = snapObj.group().transform("t" + [0, 50] + "s" + [1.7, 1]).append(f);
+        welcomeCamel = snapObj.group().transform("t" + [0, 50] + "s" + [0.3, 0.3]).append(f);
     }
+
+    
 
 
 

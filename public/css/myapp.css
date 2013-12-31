@@ -23,9 +23,9 @@ body{
     margin: 15px auto;
     /*background-color: #feff63;*/
     /*background-color: #F4C165;*/
-    background-image: url("../img/desert_background.jpg");
+    background-image: url("../img/desert_background.png");
     background-repeat: no-repeat;
-    background-size: 120%;
+    background-size: 150%;
 
 
     font-family: Norwester;
@@ -213,7 +213,7 @@ This section is the css for the home page only !!
     border:4px solid;
     background-color: #ffc213;
     /*background-color: #ffffff;*/
-    opacity: 0.75;
+    /*opacity: 0.75;*/
     width: 33%;
     margin: 0 auto;
     padding: 10px;
@@ -221,9 +221,10 @@ This section is the css for the home page only !!
 }
 
 #camelRunningBy {
-    height: 100px;
+    height: 250px;
     margin-top: 10px;
     width: 100%;
+    z-index: 10;
 }
 
 
