@@ -737,15 +737,78 @@ Template.welcomeCamel.rendered = function () {
     function animateCamel() {
 
         // The first camel is set to visible
-        camelArray[0].attr({
-            visibility: "visible"
-        });
+        //camelArray[0].attr({
+        //    visibility: "visible"
+        //});
 
+        // The first camel is set to visible
+        setCamelVisible1()
 
         // Makes the camels move
         welcomeCamel.animate({
             transform: "t" + (welcomeCamelFieldWidth / 2 - 50) + "s" + [0.3, 0.3]
         }, 5000);
+    }
+
+    // The first camel is set to visible
+    function setCamelVisible1(){
+        camelArray[0].attr({
+            visibility: "visible"
+        });
+        camelArray[1].attr({
+            visibility: "hidden"
+        });
+        camelArray[2].attr({
+            visibility: "hidden"
+        });
+
+        setTimeout(setCamelVisible2, 250);
+    }
+
+    // The second camel is set to visible
+    function setCamelVisible2(){
+        camelArray[1].attr({
+            visibility: "visible"
+        });
+        camelArray[2].attr({
+            visibility: "hidden"
+        });
+        camelArray[0].attr({
+            visibility: "hidden"
+        });
+
+        setTimeout(setCamelVisible3, 250);
+    }
+
+    // The third camel is set to visible, actually it is the first one again
+    function setCamelVisible3(){
+        camelArray[0].attr({
+            visibility: "visible"
+        });
+        camelArray[1].attr({
+            visibility: "hidden"
+        });
+        camelArray[2].attr({
+            visibility: "hidden"
+        });
+
+        setTimeout(setCamelVisible4, 250);
+    }
+
+    // The fourth camel is set to visible, actually it is the first one again
+    function setCamelVisible4(){
+        camelArray[2].attr({
+            visibility: "visible"
+        });
+        camelArray[0].attr({
+            visibility: "hidden"
+        });
+        camelArray[1].attr({
+            visibility: "hidden"
+        });
+
+        setTimeout(setCamelVisible1, 250);
+
     }
 }
 
