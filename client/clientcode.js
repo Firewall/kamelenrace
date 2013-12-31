@@ -707,6 +707,8 @@ Template.welcomeCamel.rendered = function () {
     // Initial value to check if all the images are loaded
     var imagesLoaded = 0, totalImages = 3;
 
+
+
     // loading each camel to function as a running welcome camel
     Snap.load("../img/runningCamel/camelBase.svg", onWelcomeCamelSVGLoaded);
     Snap.load("../img/runningCamel/camelRunning1.svg", onWelcomeCamelSVGLoaded);
@@ -717,7 +719,7 @@ Template.welcomeCamel.rendered = function () {
         // we add the loaded svg to a group and add the group to our array
         camelArray.push(snapObj.group().append(f));
         // we add the group with the loaded svg to our global group
-        welcomeCamel.transform("t" + [0, 50] + "s" + [0.3, 0.3]).append(camelArray[imagesLoaded]);
+        welcomeCamel.transform("t" + [0, 0] + "s" + [0.3, 0.3]).append(camelArray[imagesLoaded]);
 
         // we set each camel to invisible
         camelArray[imagesLoaded].attr({
@@ -735,11 +737,6 @@ Template.welcomeCamel.rendered = function () {
 
     //Animates the camels
     function animateCamel() {
-
-        // The first camel is set to visible
-        //camelArray[0].attr({
-        //    visibility: "visible"
-        //});
 
         // The first camel is set to visible
         setCamelVisible1()
@@ -808,7 +805,6 @@ Template.welcomeCamel.rendered = function () {
         });
 
         setTimeout(setCamelVisible1, 250);
-
     }
 }
 
