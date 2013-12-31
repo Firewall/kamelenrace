@@ -687,11 +687,10 @@ if (Meteor.isClient) {
 //    };
 
 
-
 /*
-******************************************************************************************
-* Animation for the Home Page
-* @author: Ewout Merckx
+ ******************************************************************************************
+ * Animation for the Home Page
+ * @author: Ewout Merckx
  */
 
 //rendering field
@@ -701,6 +700,8 @@ Template.welcomeCamel.rendered = function () {
     var snapObj = Snap("#camelRunningBy");
     // We create a new group
     var welcomeCamel = snapObj.group();
+    // We create an array with all the camels in it
+    var camelArray = new Array();
     // A variable to keep the with of the running field
     var welcomeCamelFieldWidth = $('#camelRunningBy').width();
     // Initial value to check if all the images are loaded
@@ -713,39 +714,37 @@ Template.welcomeCamel.rendered = function () {
 
     // Evenhandler when a camel is loaded
     function onWelcomeCamelSVGLoaded(f) {
-        welcomeCamel.transform("t" + [0, 50] + "s" + [0.3, 0.3]).append(f);
+        // we add the loaded svg to a group and add the group to our array
+        camelArray.push(snapObj.group().append(f));
+        // we add the group with the loaded svg to our global group
+        welcomeCamel.transform("t" + [0, 50] + "s" + [0.3, 0.3]).append(camelArray[imagesLoaded]);
         imagesLoaded++;
 
         // If all the camels are loaded, animate them
-        if (imagesLoaded == totalImages){
+        if (imagesLoaded == totalImages) {
             setTimeout(animateCamel, 500);
         }
     }
 
     //Animates the camels
     function animateCamel() {
-        /*foreach(var i in welcomeCamel){
-            console.log(i);
-        }*/
+
+        // The 2nd camel is set to invisible
+        camelArray[1].attr({
+            visibility: "hidden"
+        });
+
+        // The 3rd camel is set to invisible
+        camelArray[2].attr({
+            visibility: "hidden"
+        });
+
 
         // Makes the camels move
         welcomeCamel.animate({
-            transform: "t" + (welcomeCamelFieldWidth/2 - 50) + "s" + [0.3, 0.3]
+            transform: "t" + (welcomeCamelFieldWidth / 2 - 50) + "s" + [0.3, 0.3]
         }, 5000);
     }
-
-
-
-
-//             transform: "t"+[currentLocationGreenX-distance,greenY]+"s"+[0.25]
-//             },parseInt(speed));
-//             currentLocationGreenX = currentLocationGreenX - distance ;
-    //welcomeCamel.select("circle:nth-child(2)").animate({r: 50}, 1000);
-    //welcomeCamel.animate({cx: welcomeCamelFieldWidth / 2 }, 1000);
-
-
-
-
 }
 
 
