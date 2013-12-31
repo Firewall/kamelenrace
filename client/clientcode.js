@@ -124,6 +124,7 @@ if (Meteor.isClient) {
 
         }
 
+
         function testing(f) {
             camelTest = s.group().transform("t" + [510, 0] + "s" + [0.25]).attr({visibility: 'hidden'}).append(f);
             camelTest.attr({
