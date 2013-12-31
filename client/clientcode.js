@@ -697,21 +697,51 @@ if (Meteor.isClient) {
 //rendering field
 Template.welcomeCamel.rendered = function () {
 
+    // We create a new snap object
     var snapObj = Snap("#camelRunningBy");
-    var welcomeCamel;
+    // We create a new group
+    var welcomeCamel = snapObj.group();
+    // A variable to keep the with of the running field
+    var welcomeCamelFieldWidth = $('#camelRunningBy').width();
+    // Initial value to check if all the images are loaded
+    var imagesLoaded = 0, totalImages = 3;
 
-    //snapObj.circle(25, 25, 10);
-
-
-
-    // loading the blue camel as a welcome camel
+    // loading each camel to function as a running welcome camel
     Snap.load("../img/runningCamel/camelBase.svg", onWelcomeCamelSVGLoaded);
+    Snap.load("../img/runningCamel/camelRunning1.svg", onWelcomeCamelSVGLoaded);
+    Snap.load("../img/runningCamel/camelRunning2.svg", onWelcomeCamelSVGLoaded);
 
+    // Evenhandler when a camel is loaded
     function onWelcomeCamelSVGLoaded(f) {
-        welcomeCamel = snapObj.group().transform("t" + [0, 50] + "s" + [0.3, 0.3]).append(f);
+        welcomeCamel.transform("t" + [0, 50] + "s" + [0.3, 0.3]).append(f);
+        imagesLoaded++;
+
+        // If all the camels are loaded, animate them
+        if (imagesLoaded == totalImages){
+            setTimeout(animateCamel, 500);
+        }
     }
 
-    
+    //Animates the camels
+    function animateCamel() {
+        /*foreach(var i in welcomeCamel){
+            console.log(i);
+        }*/
+
+        // Makes the camels move
+        welcomeCamel.animate({
+            transform: "t" + (welcomeCamelFieldWidth/2 - 50) + "s" + [0.3, 0.3]
+        }, 5000);
+    }
+
+
+
+
+//             transform: "t"+[currentLocationGreenX-distance,greenY]+"s"+[0.25]
+//             },parseInt(speed));
+//             currentLocationGreenX = currentLocationGreenX - distance ;
+    //welcomeCamel.select("circle:nth-child(2)").animate({r: 50}, 1000);
+    //welcomeCamel.animate({cx: welcomeCamelFieldWidth / 2 }, 1000);
 
 
 
