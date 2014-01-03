@@ -44,7 +44,6 @@ if (Meteor.isClient) {
 
     //camel objects
     var camelBlue;
-    var camelTest
 
     var camelGreen;
     var camelRed;
@@ -53,6 +52,15 @@ if (Meteor.isClient) {
     //Game variabels
     console.log(Session.get("GameId"));
     console.log(Session.get("Username"));
+
+    //field
+    var s ;
+
+    //check for double animation added
+    var animation = true  ;
+
+    //
+    var fieldArray = new Array()  ;
 
 
     //rendering field
@@ -64,12 +72,14 @@ if (Meteor.isClient) {
         );
 
         //creating field
-        var s = Snap("#backgroundRaceField");
+        s = Snap("#backgroundRaceField");
 
         //ading lanes
         var lane1 = s.line(0, 125, 700, 125);
         var lane2 = s.line(0, 250, 700, 250);
         var lane3 = s.line(0, 370, 700, 370);
+        fieldArray.push(lane1,lane2,lane3);
+
 
         lane1.attr({
             stroke: "#000",
@@ -101,7 +111,6 @@ if (Meteor.isClient) {
 
 
         Snap.load("../img/BlueCamel.svg", onBlueCamelSVGLoaded);
-        Snap.load("../img/BlueCamel.svg", testing);
 
 
         Snap.load("../img/GreenCamel.svg", onGreenCamelSVGLoaded);
@@ -112,6 +121,15 @@ if (Meteor.isClient) {
         Snap.load("../img/DesertBackground.svg", onDesertBackgroundLane2SVGLoaded);
         Snap.load("../img/DesertBackground.svg", onDesertBackgroundLane3SVGLoaded);
         Snap.load("../img/DesertBackground.svg", onDesertBackgroundLane4SVGLoaded);
+
+
+
+
+
+
+
+
+
 
 
         //functions for adding camels to field + scaling svg
@@ -125,12 +143,7 @@ if (Meteor.isClient) {
         }
 
 
-        function testing(f) {
-            camelTest = s.group().transform("t" + [510, 0] + "s" + [0.25]).attr({visibility: 'hidden'}).append(f);
-            camelTest.attr({
-                //visibility:'hidden'
-            });
-        }
+
 
         function onGreenCamelSVGLoaded(f) {
             camelGreen = s.group().transform(startLocationGreen).append(f);
@@ -146,60 +159,60 @@ if (Meteor.isClient) {
 
         //adding desert foreground and backgrounds
         function onDesertForegroundLane1SVGLoaded(f) {
-            s.group().transform("t" + [0, 81] + "s" + [1.7, 1]).append(f);
+            fieldArray.push(s.group().transform("t" + [0, 81] + "s" + [1.7, 1]).append(f));
 
         }
 
         function onDesertForegroundLane2SVGLoaded(f) {
-            s.group().transform("t" + [0, 205] + "s" + [1.7, 1]).append(f);
+            fieldArray.push(s.group().transform("t" + [0, 205] + "s" + [1.7, 1]).append(f));
 
         }
 
         function onDesertForegroundLane3SVGLoaded(f) {
-            s.group().transform("t" + [0, 325] + "s" + [1.7, 1]).append(f);
+            fieldArray.push(s.group().transform("t" + [0, 325] + "s" + [1.7, 1]).append(f));
 
         }
 
         function onDesertForegroundLane4SVGLoaded(f) {
-            s.group().transform("t" + [0, 450] + "s" + [1.7, 1.3]).append(f);
+            fieldArray.push(s.group().transform("t" + [0, 450] + "s" + [1.7, 1.3]).append(f));
 
         }
 
 
         function onDesertBackgroundLane1SVGLoaded(f) {
-            s.group().transform("t" + [0, 91] + "s" + [1.7, 1]).append(f);
+            fieldArray.push(s.group().transform("t" + [0, 91] + "s" + [1.7, 1]).append(f));
         }
 
         function onDesertBackgroundLane2SVGLoaded(f) {
-            s.group().transform("t" + [0, 216] + "s" + [1.7, 1]).append(f);
+            fieldArray.push(s.group().transform("t" + [0, 216] + "s" + [1.7, 1]).append(f));
         }
 
         function onDesertBackgroundLane3SVGLoaded(f) {
-            s.group().transform("t" + [0, 336] + "s" + [1.7, 1]).append(f);
+            fieldArray.push(s.group().transform("t" + [0, 336] + "s" + [1.7, 1]).append(f));
         }
 
         function onDesertBackgroundLane4SVGLoaded(f) {
-            s.group().transform("t" + [0, 460] + "s" + [1.7, 1.3]).append(f);
+            fieldArray.push(s.group().transform("t" + [0, 460] + "s" + [1.7, 1.3]).append(f));
         }
 
         //add palmtree
         function onPalmThree1SVGLoaded(f) {
-            s.group().transform("t" + [300, 31] + "s" + [0.1]).append(f);
+            fieldArray.push(s.group().transform("t" + [300, 31] + "s" + [0.1]).append(f));
 
         }
 
         function onPalmThree2SVGLoaded(f) {
-            s.group().transform("t" + [150, 151] + "s" + [0.1]).append(f);
+            fieldArray.push(s.group().transform("t" + [150, 151] + "s" + [0.1]).append(f));
 
         }
 
         function onPalmThree3SVGLoaded(f) {
-            s.group().transform("t" + [200, 257] + "s" + [0.1]).append(f);
+            fieldArray.push(s.group().transform("t" + [200, 257] + "s" + [0.1]).append(f));
 
         }
 
         function onPalmThree4SVGLoaded(f) {
-            s.group().transform("t" + [250, 395] + "s" + [0.1]).append(f);
+            fieldArray.push(s.group().transform("t" + [250, 395] + "s" + [0.1]).append(f));
 
         }
 
@@ -588,7 +601,7 @@ if (Meteor.isClient) {
         //Get the current state of the game
         var tempGame = Games.findOne({}, {GameId: Session.get("GameId")});
         //Increase the current location
-        tempGame.Players[Session.get("PlayerId")].CurrentLocation += parseInt(hole.nr) * 10;
+        tempGame.Players[Session.get("PlayerId")].CurrentLocation += parseInt(hole.nr) * 590;
         //Update the game in the DB
         Games.update(tempGame._id, tempGame);
         //Update the game on the client side
@@ -625,8 +638,125 @@ if (Meteor.isClient) {
         $.each(camelArray, function (index) {
             this.animate({
                 transform: "t" + [590 - currentGame.Players[index].CurrentLocation, ys[index]] + "s" + [0.25]
-            }, parseInt(2000));
+            }, parseInt(2000),function checkwin(){
+                currentGame.Players[index].CurrentLocation
+                if(currentGame.Players[index].CurrentLocation>= 590){
+                    console.log("gewonnen" + currentGame.Players[index].CurrentLocation );
+                    console.log("Player " + currentGame.Players[index].Username + " heeft gewonnen!");
+                    switch (currentGame.Players[index].PlayerId) {
+                        case 1:
+                            blueWins() ;
+                            break;
+                        case 2:
+                            greenWins();
+                            break;
+                        case 3:
+                            redWins();
+                            break;
+                        case 4:
+                            yellowWins();
+                            break;
+
+                    }
+
+                }
+            });
+
         });
+    }
+
+    function blueWins(){
+        Snap.load("../img/winnerblue.svg", winsSvg4SVGLoaded);
+
+    }
+    function greenWins(){
+        Snap.load("../img/winnerGreen.svg", winsSvg4SVGLoaded);
+
+    }
+    function redWins(){
+        Snap.load("../img/winnerRed.svg", winsSvg4SVGLoaded);
+
+    }
+    function yellowWins(){
+        Snap.load("../img/winnerYellow.svg", winsSvg4SVGLoaded);
+
+    }
+
+
+    /*
+     *Animation for winning the game
+     *
+     */
+
+
+    function hideField(){
+        var camelArray = [camelBlue, camelGreen, camelRed, camelYellow];
+
+        $.each(camelArray, function (index) {
+            this.attr({
+                visibility:'hidden'
+            });
+
+        });
+
+        $.each(fieldArray, function (index) {
+            this.attr({
+                visibility:'hidden'
+            });
+        });
+
+    }
+
+
+    function winsSvg4SVGLoaded(f){
+
+        hideField();
+        //var hide = s.group();
+
+        //create snapobject
+        //var snapObjWin = Snap("#winGameAnimation");
+        //var winGameWidth = $('#winGameAnimation').width();
+
+        //check if animation gets added only ones
+        if(animation==true){
+
+
+
+            var anim = s.group().transform("t" + [590/2-50, 0] + "s" + [0.25]).append(f);
+            animation = false ;
+
+        }
+        //var winAnimation = test.group();
+
+        //s.group().remove();
+
+
+
+        //snapObjWin.group().transform(startLocationRed).append(f);
+        //g.animate({ 'opacity': 1, transform : "t0,200" }, 2000, mina.backin );
+
+
+        anim.animate({
+           transform: "t" + [590/4-100, 50] + "s" + [0.8]
+        }, 5000,function restart(){
+            var testing = s.text(100, 100, "New game...").attr({fontSize:40});
+            testing.mouseover(function() {
+                console.log("skjfsqfdklj");
+                testing.animate({
+                    fontSize:60
+                })
+            });
+
+
+
+         });
+
+        // winAnimation.transform("t" + [0, 50] + "s" + [0.3, 0.3]).append(f);
+
+
+
+
+
     }
 
 
@@ -686,6 +816,9 @@ if (Meteor.isClient) {
 //
 //        }
 //    };
+
+
+
 
 
 /*
