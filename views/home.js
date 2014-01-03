@@ -11,7 +11,24 @@ if (Meteor.isClient) {
                 $('#txtSetUsername').siblings('h2').remove();
                 $('#txtSetUsername').siblings('a').remove();
                 //Display Username & Link
-                $('#txtSetUsername').parent('p').append('<h2>Your usernames is ' + Session.get('Username') + ' and PlayerId is ' + Session.get('PlayerId') + '</h2><a href="/game/5">Go to game</a>');
+                $('#txtSetUsername').parent('p').append('<h2>Your usernames is ' + Session.get('Username') + ' and PlayerId is ' + Session.get('PlayerId') + '</h2><a  id="gameUrl" href="/game/5">Go to game</a>');
+
+
+                // we first add an even listener on the link to the game
+                $('#gameUrl').on('click', function(event) {
+
+                    //alert('ok');
+
+                    // prevent to go to the url
+                    //event.preventDefault();
+
+                    // Makes the camels move
+                    /*welcomeCamel.animate({
+                        transform: "t" + (welcomeCamelFieldWidth - 100) + "s" + [0.3, 0.3]
+                    }, 5000);*/
+
+
+                });
             }
         }});
 
@@ -21,7 +38,7 @@ if (Meteor.isClient) {
 
         paper1.attr({
             //backgroundColor:"red"
-            height: "400px"
+            height: "350px"
 
         })
 
