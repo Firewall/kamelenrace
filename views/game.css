@@ -66,7 +66,7 @@ body{
     background-size: 119%;*/
     height: 500px;
     width: 700px;
-    float: left;
+    float: left;/*test*/
     margin: 5px;
     border:2px solid;
     border-radius:25px;
