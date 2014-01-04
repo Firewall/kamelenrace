@@ -54,13 +54,13 @@ if (Meteor.isClient) {
     console.log(Session.get("Username"));
 
     //field
-    var s ;
+    var s;
 
     //check for double animation added
-    var animation = true  ;
+    var animation = true;
 
     //
-    var fieldArray = new Array()  ;
+    var fieldArray = new Array();
 
 
     //rendering field
@@ -78,7 +78,7 @@ if (Meteor.isClient) {
         var lane1 = s.line(0, 125, 700, 125);
         var lane2 = s.line(0, 250, 700, 250);
         var lane3 = s.line(0, 370, 700, 370);
-        fieldArray.push(lane1,lane2,lane3);
+        fieldArray.push(lane1, lane2, lane3);
 
 
         lane1.attr({
@@ -123,15 +123,6 @@ if (Meteor.isClient) {
         Snap.load("../img/DesertBackground.svg", onDesertBackgroundLane4SVGLoaded);
 
 
-
-
-
-
-
-
-
-
-
         //functions for adding camels to field + scaling svg
         function onBlueCamelSVGLoaded(f) {
             camelBlue = s.group().transform(startLocationBlue).append(f);
@@ -141,8 +132,6 @@ if (Meteor.isClient) {
             });
 
         }
-
-
 
 
         function onGreenCamelSVGLoaded(f) {
@@ -601,7 +590,7 @@ if (Meteor.isClient) {
         //Get the current state of the game
         var tempGame = Games.findOne({}, {GameId: Session.get("GameId")});
         //Increase the current location
-        tempGame.Players[Session.get("PlayerId")].CurrentLocation += parseInt(hole.nr) * 590;
+        tempGame.Players[Session.get("PlayerId")].CurrentLocation += parseInt(hole.nr) * 10;
         //Update the game in the DB
         Games.update(tempGame._id, tempGame);
         //Update the game on the client side
@@ -638,14 +627,14 @@ if (Meteor.isClient) {
         $.each(camelArray, function (index) {
             this.animate({
                 transform: "t" + [590 - currentGame.Players[index].CurrentLocation, ys[index]] + "s" + [0.25]
-            }, parseInt(2000),function checkwin(){
+            }, parseInt(2000), function checkwin() {
                 currentGame.Players[index].CurrentLocation
-                if(currentGame.Players[index].CurrentLocation>= 590){
-                    console.log("gewonnen" + currentGame.Players[index].CurrentLocation );
+                if (currentGame.Players[index].CurrentLocation >= 590) {
+                    console.log("gewonnen" + currentGame.Players[index].CurrentLocation);
                     console.log("Player " + currentGame.Players[index].Username + " heeft gewonnen!");
                     switch (currentGame.Players[index].PlayerId) {
                         case 1:
-                            blueWins() ;
+                            blueWins();
                             break;
                         case 2:
                             greenWins();
@@ -665,19 +654,22 @@ if (Meteor.isClient) {
         });
     }
 
-    function blueWins(){
+    function blueWins() {
         Snap.load("../img/winnerblue.svg", winsSvg4SVGLoaded);
 
     }
-    function greenWins(){
+
+    function greenWins() {
         Snap.load("../img/winnerGreen.svg", winsSvg4SVGLoaded);
 
     }
-    function redWins(){
+
+    function redWins() {
         Snap.load("../img/winnerRed.svg", winsSvg4SVGLoaded);
 
     }
-    function yellowWins(){
+
+    function yellowWins() {
         Snap.load("../img/winnerYellow.svg", winsSvg4SVGLoaded);
 
     }
@@ -689,26 +681,26 @@ if (Meteor.isClient) {
      */
 
 
-    function hideField(){
+    function hideField() {
         var camelArray = [camelBlue, camelGreen, camelRed, camelYellow];
 
         $.each(camelArray, function (index) {
             this.attr({
-                visibility:'hidden'
+                visibility: 'hidden'
             });
 
         });
 
         $.each(fieldArray, function (index) {
             this.attr({
-                visibility:'hidden'
+                visibility: 'hidden'
             });
         });
 
     }
 
 
-    function winsSvg4SVGLoaded(f){
+    function winsSvg4SVGLoaded(f) {
 
         hideField();
         //var hide = s.group();
@@ -718,12 +710,11 @@ if (Meteor.isClient) {
         //var winGameWidth = $('#winGameAnimation').width();
 
         //check if animation gets added only ones
-        if(animation==true){
+        if (animation == true) {
 
 
-
-            var anim = s.group().transform("t" + [590/2-50, 0] + "s" + [0.25]).append(f);
-            animation = false ;
+            var anim = s.group().transform("t" + [590 / 2 - 50, 0] + "s" + [0.25]).append(f);
+            animation = false;
 
         }
         //var winAnimation = test.group();
@@ -731,30 +722,25 @@ if (Meteor.isClient) {
         //s.group().remove();
 
 
-
         //snapObjWin.group().transform(startLocationRed).append(f);
         //g.animate({ 'opacity': 1, transform : "t0,200" }, 2000, mina.backin );
 
 
         anim.animate({
-           transform: "t" + [590/4-100, 50] + "s" + [0.8]
-        }, 5000,function restart(){
-            var testing = s.text(100, 100, "New game...").attr({fontSize:40});
-            testing.mouseover(function() {
+            transform: "t" + [590 / 4 - 100, 50] + "s" + [0.8]
+        }, 5000, function restart() {
+            var testing = s.text(100, 100, "New game...").attr({fontSize: 40});
+            testing.mouseover(function () {
                 console.log("skjfsqfdklj");
                 testing.animate({
-                    fontSize:60
+                    fontSize: 60
                 })
             });
 
 
-
-         });
+        });
 
         // winAnimation.transform("t" + [0, 50] + "s" + [0.3, 0.3]).append(f);
-
-
-
 
 
     }
@@ -818,9 +804,6 @@ if (Meteor.isClient) {
 //    };
 
 
-
-
-
 /*
  ******************************************************************************************
  * Animation for the Home Page
@@ -840,7 +823,6 @@ Template.welcomeCamel.rendered = function () {
     var welcomeCamelFieldWidth = $('#camelRunningBy').width();
     // Initial value to check if all the images are loaded
     var imagesLoaded = 0, totalImages = 3;
-
 
 
     // loading each camel to function as a running welcome camel
@@ -882,7 +864,7 @@ Template.welcomeCamel.rendered = function () {
     }
 
     // The first camel is set to visible
-    function setCamelVisible1(){
+    function setCamelVisible1() {
         camelArray[0].attr({
             visibility: "visible"
         });
@@ -897,7 +879,7 @@ Template.welcomeCamel.rendered = function () {
     }
 
     // The second camel is set to visible
-    function setCamelVisible2(){
+    function setCamelVisible2() {
         camelArray[1].attr({
             visibility: "visible"
         });
@@ -912,7 +894,7 @@ Template.welcomeCamel.rendered = function () {
     }
 
     // The third camel is set to visible, actually it is the first one again
-    function setCamelVisible3(){
+    function setCamelVisible3() {
         camelArray[0].attr({
             visibility: "visible"
         });
@@ -927,7 +909,7 @@ Template.welcomeCamel.rendered = function () {
     }
 
     // The fourth camel is set to visible, actually it is the first one again
-    function setCamelVisible4(){
+    function setCamelVisible4() {
         camelArray[2].attr({
             visibility: "visible"
         });
