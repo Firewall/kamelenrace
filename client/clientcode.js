@@ -601,7 +601,7 @@ if (Meteor.isClient) {
         //Get the current state of the game
         var tempGame = Games.findOne({}, {GameId: Session.get("GameId")});
         //Increase the current location
-        tempGame.Players[Session.get("PlayerId")].CurrentLocation += parseInt(hole.nr) * 590;
+        tempGame.Players[Session.get("PlayerId")].CurrentLocation += parseInt(hole.nr) * 10;
         //Update the game in the DB
         Games.update(tempGame._id, tempGame);
         //Update the game on the client side
