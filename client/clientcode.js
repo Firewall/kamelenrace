@@ -719,7 +719,7 @@ if (Meteor.isClient) {
             hideField();
             var lostMessage = s.text(70, 250, "You lose ,better luck next time!").attr({
                 fill: "#900",
-                "font-size": "40px",
+                "font-size": "40px"
 
 
             });

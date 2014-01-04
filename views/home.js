@@ -4,31 +4,103 @@ if (Meteor.isClient) {
         'click #btnSetUsername': function () {
             //Set the username in the session
             if ($('#txtSetUsername').val() != '') {
-                Session.set('Username', $('#txtSetUsername').val());
-                Session.set('PlayerId', $('#txtSetPlayerId').val());
 
-                //Remove previous h2 & link
-                $('#txtSetUsername').siblings('h2').remove();
-                $('#txtSetUsername').siblings('a').remove();
-                //Display Username & Link
-                $('#txtSetUsername').parent('p').append('<h2>Your usernames is ' + Session.get('Username') + ' and PlayerId is ' + Session.get('PlayerId') + '</h2><a  id="gameUrl" href="/game/5">Go to game</a>');
+                if (Games.find().fetch().length == 0) {
+                    //If there are no games, create a new one with id 1
+                    Games.insert({
+                        GameId: 1,
+                        Players: [
+                            {
+                                Username: $('#txtSetUsername').val(),
+                                PlayerId: 0,
+                                CurrentLocation: 0
+                            },
+                            {
+                                PlayerId: 1,
+                                CurrentLocation: 0
 
+                            },
+                            {
+                                PlayerId: 2,
+                                CurrentLocation: 0
 
-                // we first add an even listener on the link to the game
-                $('#gameUrl').on('click', function(event) {
+                            },
+                            {
+                                PlayerId: 3,
+                                CurrentLocation: 0
 
-                    //alert('ok');
+                            }
+                        ]
+                    });
 
-                    // prevent to go to the url
-                    //event.preventDefault();
+                    //Set the sessions vars
+                    Session.set('Username', $('#txtSetUsername').val());
+                    Session.set('PlayerId', '0');
 
-                    // Makes the camels move
-                    /*welcomeCamel.animate({
-                        transform: "t" + (welcomeCamelFieldWidth - 100) + "s" + [0.3, 0.3]
-                    }, 5000);*/
+                    //redirect
+                    Meteor.Router.to('/game/1');
+                } else {
+                    //there all ready games so try to join one
+                    var allGames = Games.find().fetch();
+                    var foundGame = false;
+                    for (var i = 0; i < allGames.length && foundGame == false; i++) {
+                        for (var j = 0; j < allGames[i].Players.length && foundGame == false; j++) {
+                            console.log(allGames[i].Players[j].Username);
+                            if (allGames[i].Players[j].Username == undefined) {
+                                //Change the db record
+                                allGames[i].Players[j].Username = $('#txtSetUsername').val();
+                                //Send update to DB
+                                Games.update(allGames[i]._id, allGames[i]);
+                                //Set the session vars
+                                Session.set('Username', $('#txtSetUsername').val());
+                                Session.set('PlayerId', allGames[i].Players[j].PlayerId);
+                                //redirect to game
+                                Meteor.Router.to('/game/' + allGames[i].GameId);
+                                //found game
+                                foundGame = true;
+                            }
+                        }
+                    }
 
+                    //There is no space in any games, so create a new one and be player0
+                    if (foundGame == false) {
+                        var newGameId = allGames[allGames.length - 1].GameId + 1;
+                        //If there are no games, create a new one with id 1
+                        Games.insert({
+                            GameId: newGameId,
+                            Players: [
+                                {
+                                    Username: $('#txtSetUsername').val(),
+                                    PlayerId: 0,
+                                    CurrentLocation: 0
+                                },
+                                {
+                                    PlayerId: 1,
+                                    CurrentLocation: 0
 
-                });
+                                },
+                                {
+                                    PlayerId: 2,
+                                    CurrentLocation: 0
+
+                                },
+                                {
+                                    PlayerId: 3,
+                                    CurrentLocation: 0
+
+                                }
+                            ]
+                        });
+
+                        //Set the sessions vars
+                        Session.set('Username', $('#txtSetUsername').val());
+                        Session.set('PlayerId', '0');
+
+                        //redirect
+                        Meteor.Router.to('/game/' + newGameId);
+                    }
+
+                }
             }
         }});
 
@@ -95,7 +167,7 @@ if (Meteor.isClient) {
                 "stroke-dashoffset": leng
             }).animate({"stroke-dashoffset": 0}, 3000, mina.elastic());
 
-             g.append(raphPathArray[index]);
+            g.append(raphPathArray[index]);
 
         }
 
