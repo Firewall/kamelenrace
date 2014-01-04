@@ -749,6 +749,9 @@ if (Meteor.isClient) {
 
                 });
 
+                testing.node.id = "myText";
+
+
 
             });
 
@@ -776,9 +779,13 @@ if (Meteor.isClient) {
             }, 2000, function restart() {
                 var testing = s.text(50, 250, "New game...").attr({
                     fill: "#900",
-                    "font-size": "50px",
+                    "font-size": "50px"
 
                 });
+
+                testing.node.id = "myText";
+
+
 
                 testing.hover(function hoverIn() {
                     testing.animate({

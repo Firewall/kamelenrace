@@ -74,6 +74,10 @@ body{
     background-color: #F0F9FE;
 }
 
+#myText:hover {
+    cursor: pointer;
+}
+
 
 #test{
     height: 500px;
