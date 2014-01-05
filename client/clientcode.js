@@ -352,13 +352,15 @@ if (Meteor.isClient) {
             strokeWidth: 5
         });
 
-        // we make the ball
+        // we make the ball, with a delay for the color
         ball = snapobj.circle(ballFieldWidth / 2, 600, ballRadius);
-        ball.attr({
-            fill: 'r()#FF0000-#B30000',
-            stroke: '#000',
-            strokeWidth: '1'
-        });
+        setTimeout(function(){
+            ball.attr({
+                fill: "#B30000", //'r()#FF0000-#B30000',
+                stroke: '#000',
+                strokeWidth: '1'
+            });
+        }, 50);
 
         // we make the canvas
         canvas = snapobj.rect(0, 500, ballFieldWidth, ballFieldHeight - 500)
