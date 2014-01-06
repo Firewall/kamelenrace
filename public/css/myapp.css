@@ -118,27 +118,6 @@ svg{
     border-bottom: 4px solid #000000;
 }
 
-.desertBackground {
-
-    position: relative;
-    top: 75px;
-    background-image: url("../img/DesertBackground.png");
-    background-repeat: repeat-x;
-    width: 100%;
-    height: 24px;
-}
-
-.desertForeground {
-    position: relative;
-    top: 61px;
-    background-image: url("../img/DesertForeground.png");
-    background-repeat: repeat-x;
-    width: 100%;
-    height: 24px;
-    z-index: 1;
-}
-
-
 .laneEnd{
     position: absolute;
     width: 700px;

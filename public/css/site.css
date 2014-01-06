@@ -22,6 +22,11 @@ html {
     background-size: cover;
 }
 
+#myText:hover {
+    cursor: pointer;
+}
+
+
 body{
     width: 1000px;
     text-align: center;
