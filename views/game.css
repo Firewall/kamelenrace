@@ -1,13 +1,4 @@
 /* CSS declarations go here
-
-img { 
-	background: transparent url('camel2.jpg'); 
-	width: 100px;
-	height: 100px;
-	
-
-
-}
  */
 
 @font-face {
@@ -24,18 +15,19 @@ img {
 
 h1, h2, h3 ,p { font-family: 'Norwester', 'Georgia', serif; }
 
-
-
-
-
 body{
     width: 1000px;
     text-align: center;
     height: 725px;
 
     margin: 15px auto;
-    background-color: #feff63;
-    border:4px solid;
+    /*background-color: #feff63;*/
+    /*background-color: #F4C165;*/
+    background-image: url("../img/desert_background.png");
+    background-repeat: no-repeat;
+    background-size: 150%;
+
+
     font-family: Norwester;
 
     -moz-user-select: none;
@@ -43,17 +35,10 @@ body{
     -webkit-user-select: none;
     -o-user-select: none;
     user-select: none;
-
-
-    /*border-radius:25px;
-
-
-
-	/*background: transparent url('img/background2.png') no-repeat left top;
-	background: transparent url('css/background2.png');  */
 }
 
 #container{
+    border:4px solid;
     background-color: #ffc213;
     width: 1000px;
     height: 725px;
@@ -61,16 +46,12 @@ body{
 
 }
 #backgroundRaceField {
-    /*background-color: #0000ff;*/
-    /*background-image: url("img/background2.png");
-    background-size: 119%;*/
     height: 500px;
     width: 700px;
-    float: left;/*test*/
+    float: left;
     margin: 5px;
     border:2px solid;
     border-radius:25px;
-    /*background-color: greenyellow;*/
     background-color: #F0F9FE;
 }
 
@@ -86,13 +67,11 @@ body{
     margin-left: 10px;
     border:2px solid;
     border-radius:25px;
-    /*background-image: url("../img/trow.png");*/
     width: 270px ;
     float: right;
     height: 700px;
     background-size: 100%;
     margin:5px;
-
 
 
 }
@@ -107,6 +86,7 @@ body{
 
 }
 
+
 #chat{
     border-radius:25px;
     border:2px solid;
@@ -115,7 +95,6 @@ body{
     margin: 6px auto 3px auto;
     resize: none;
 
-    /*background-color: #f8ff62;*/
     background-color: #fff;
     text-align: left;
     text-indent: 9px;
@@ -131,7 +110,6 @@ body{
     height: 20px;
     width: 680px;
     text-indent: 10px;
-    /*background-color: #f8ff62;*/
     background-color: #fff;
     margin-top: 5px;
 }
@@ -142,43 +120,7 @@ svg{
     width: 700px ;
     float: left;
     border-bottom: 4px solid #000000;
-
 }
-
-.lane{
-   /* margin-left: 7px;
-
-    position: absolute;
-    width: 700px;
-    height: 125px;
-    float: left;
-    border-bottom: 4px solid #000000;*/
-}
-
-.lane p {
-  /*  height: 150px ;*/
-}
-
-.desertBackground {
-
-    position: relative;
-    top: 75px;
-    background-image: url("../img/DesertBackground.png");
-    background-repeat: repeat-x;
-    width: 100%;
-    height: 24px;
-}
-
-.desertForeground {
-    position: relative;
-    top: 61px;
-    background-image: url("../img/DesertForeground.png");
-    background-repeat: repeat-x;
-    width: 100%;
-    height: 24px;
-    z-index: 1;
-}
-
 
 .laneEnd{
     position: absolute;
@@ -189,22 +131,15 @@ svg{
 #player1 {
     width: 76px;
     height: 86px;
-    /*background-image: url("img/camel2.jpg");*/
-    /*background-image: url("../img/BlueCamel.svg");*/
     background-size: 105%;
     position: relative;
     top: 40px;
     margin-left: 600px;
-
-
-
-
 }
 
 #player2 {
     width: 76px;
     height: 86px;
-    /*background-image: url("img/camel2.jpg");*/
     background-image: url("../img/YellowCamel.svg");
     background-size: 105%;
     position: relative;
@@ -216,7 +151,6 @@ svg{
 #player3 {
     width: 76px;
     height: 86px;
-    /*background-image: url("img/camel2.jpg");*/
     background-image: url("../img/RedCamel.svg");
     background-size: 105%;
     position: relative;
@@ -228,7 +162,6 @@ svg{
 #player4 {
     width: 76px;
     height: 86px;
-    /*background-image: url("img/camel2.jpg");*/
     background-image: url("../img/GreenCamel.svg");
     background-size: 105%;
     position: relative;
@@ -254,11 +187,26 @@ footer{
     text-align: center;
     line-height: 50px;
     margin-bottom: 5px;
+}
 
+/*
+This section is the css for the home page only !!
+*/
+
+#setUsernameBox {
+    border:4px solid;
+    background-color: #ffc213;
+    /*background-color: #ffffff;*/
+    /*opacity: 0.75;*/
+    width: 33%;
+    margin: 0 auto;
+    padding: 10px;
 
 }
 
-
-
-
-
+#camelRunningBy {
+    height: 150px;
+    margin-top: 10px;
+    width: 100%;
+    z-index: 10;
+}
