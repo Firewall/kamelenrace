@@ -9,6 +9,7 @@ if (Meteor.isClient) {
                     //If there are no games, create a new one with id 1
                     Games.insert({
                         GameId: 1,
+                        GameEnded: false,
                         Players: [
                             {
                                 Username: $('#txtSetUsername').val(),
@@ -68,6 +69,7 @@ if (Meteor.isClient) {
                         //If there are no games, create a new one with id 1
                         Games.insert({
                             GameId: newGameId,
+                            GameEnded: false,
                             Players: [
                                 {
                                     Username: $('#txtSetUsername').val(),
