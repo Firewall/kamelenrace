@@ -9,6 +9,7 @@ if (Meteor.isClient) {
                     //If there are no games, create a new one with id 1
                     Games.insert({
                         GameId: 1,
+                        GameEnded: false,
                         Players: [
                             {
                                 Username: $('#txtSetUsername').val(),
@@ -45,7 +46,7 @@ if (Meteor.isClient) {
                     var foundGame = false;
                     for (var i = 0; i < allGames.length && foundGame == false; i++) {
                         for (var j = 0; j < allGames[i].Players.length && foundGame == false; j++) {
-                            console.log(allGames[i].Players[j].Username);
+                            //console.log(allGames[i].Players[j].Username);
                             if (allGames[i].Players[j].Username == undefined) {
                                 //Change the db record
                                 allGames[i].Players[j].Username = $('#txtSetUsername').val();
@@ -68,6 +69,7 @@ if (Meteor.isClient) {
                         //If there are no games, create a new one with id 1
                         Games.insert({
                             GameId: newGameId,
+                            GameEnded: false,
                             Players: [
                                 {
                                     Username: $('#txtSetUsername').val(),
