@@ -57,6 +57,8 @@ body{
 
 #myText:hover {
     cursor: pointer;
+    fill: #900;
+    font-size :50px;
 }
 
 

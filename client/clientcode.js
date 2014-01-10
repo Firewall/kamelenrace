@@ -63,6 +63,12 @@ if (Meteor.isClient) {
     //
     var fieldArray = new Array();
 
+    var waitingForBlueCamelRider;
+    var waitingForGreenCamelRider;
+    var waitingForRedCamelRider;
+    var waitingForYellowCamelRider;
+
+
 
     //rendering field
     Template.hello.rendered = function () {
@@ -70,7 +76,22 @@ if (Meteor.isClient) {
         game.observeChanges({
                 changed: moveCamels
             }
+
         );
+        game.observeChanges({
+                changed: availableRiders
+            },function (){
+                console.log("available riders change database")
+            }
+
+        );
+
+
+
+
+
+
+
 
         //creating field
         s = Snap("#backgroundRaceField");
@@ -127,24 +148,38 @@ if (Meteor.isClient) {
         //functions for adding camels to field + scaling svg
         function onBlueCamelSVGLoaded(f) {
             camelBlue = s.group().transform(startLocationBlue).append(f);
-            camelBlue.attr({
-                //   stroke: "#000",
-                //   strokeWidth: 2
+
+            waitingForBlueCamelRider = s.text(70, 60, "Waiting for camel Rider").attr({
+                fill: "#900",
+                "font-size": "20px"
             });
+
 
         }
 
 
         function onGreenCamelSVGLoaded(f) {
             camelGreen = s.group().transform(startLocationGreen).append(f);
+            waitingForGreenCamelRider = s.text(230, 180, "Waiting for camel Rider").attr({
+                fill: "#900",
+                "font-size": "20px"
+            });
         }
 
         function onYellowCamelSVGLoaded(f) {
             camelYellow = s.group().transform(startLocationYellow).append(f);
+            waitingForYellowCamelRider = s.text(280, 290, "Waiting for camel Rider").attr({
+                fill: "#900",
+                "font-size": "20px"
+            });
         }
 
         function onRedCamelSVGLoaded(f) {
             camelRed = s.group().transform(startLocationRed).append(f);
+            waitingForRedCamelRider= s.text(320, 430, "Waiting for camel Rider").attr({
+                fill: "#900",
+                "font-size": "20px"
+            });
         }
 
         //adding desert foreground and backgrounds
@@ -591,7 +626,7 @@ if (Meteor.isClient) {
         //Get the current state of the game
         var tempGame = Games.findOne({}, {GameId: Session.get("GameId")});
         //Increase the current location
-        tempGame.Players[Session.get("PlayerId")].CurrentLocation += parseInt(hole.nr) * 10;
+        tempGame.Players[Session.get("PlayerId")].CurrentLocation += parseInt(hole.nr) * 50;
         //Update the game in the DB
         Games.update(tempGame._id, tempGame);
         //Update the game on the client side
@@ -620,6 +655,24 @@ if (Meteor.isClient) {
         setTimeout(throwBall, 600)
     }
 
+    var availableRiders = function () {
+        var camelArray = [camelBlue, camelGreen, camelRed, camelYellow];
+        currentGame = Games.findOne({}, {GameId: Session.get("GameId")});
+        $.each(camelArray, function (index) {
+            if(currentGame.Players[index].Username == null){
+                console.log("Player " +currentGame.Players[index].PlayerId + "has no rider" ) ;
+            }
+            console.log("functie available riders");
+
+
+
+        });
+
+
+
+
+    }
+
 
     var moveCamels = function () {
         console.log("Camels are being moved");
@@ -633,20 +686,20 @@ if (Meteor.isClient) {
                 if (currentGame.Players[index].CurrentLocation >= 590) {
                     console.log("gewonnen" + currentGame.Players[index].CurrentLocation);
                     console.log("Player " + currentGame.Players[index].Username + " heeft gewonnen!");
-                    if (currentGame.Players[index].PlayerId == (parseInt(Session.get("PlayerId")) + 1)) {
+                    if (currentGame.Players[index].PlayerId == (parseInt(Session.get("PlayerId")))) {
                         console.log("you win");
                         //load the correct image
                         switch (currentGame.Players[index].PlayerId) {
-                            case 1:
+                            case 0:
                                 blueWins();
                                 break;
-                            case 2:
+                            case 1:
                                 greenWins();
                                 break;
-                            case 3:
+                            case 2:
                                 redWins();
                                 break;
-                            case 4:
+                            case 3:
                                 yellowWins();
                                 break;
 
@@ -725,12 +778,16 @@ if (Meteor.isClient) {
             });
             lostMessage.animate({
                 transform: "s1.1,t"
-            }, 2000, function restart() {
+            }, 1000, function restart() {
                 var testing = s.text(240, 350, "New game...").attr({
                     fill: "#900",
                     "font-size": "50px"
 
                 });
+
+                testing.node.id = "myText";
+
+
 
                 testing.hover(function hoverIn() {
                     testing.animate({
@@ -745,11 +802,12 @@ if (Meteor.isClient) {
                 });
                 testing.click(function () {
                     console.log("click");
-                    window.location = "/";
+                    Meteor.Router.to('/');
+
+                    //window.location = "/";
 
                 });
 
-                testing.node.id = "myText";
 
 
 

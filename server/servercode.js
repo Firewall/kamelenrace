@@ -1,7 +1,7 @@
 if (Meteor.isServer) {
 
     Meteor.startup(function () {
-//      Games.remove({});
+      Games.remove({});
 //
 //        Games.insert({
 //            GameId: 5,
