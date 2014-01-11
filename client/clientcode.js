@@ -68,30 +68,18 @@ if (Meteor.isClient) {
     var waitingForRedCamelRider;
     var waitingForYellowCamelRider;
 
+    var currentGame ;
+
+    //locater
+    var blueidentity;
+    var greenidentity;
+    var redidentity;
+    var yellowidentity;
+
 
 
     //rendering field
     Template.hello.rendered = function () {
-        game = Games.find({}, {GameId: Session.get("GameId")});
-        game.observeChanges({
-                changed: moveCamels
-            }
-
-        );
-        game.observeChanges({
-                changed: availableRiders
-            },function (){
-                console.log("available riders change database")
-            }
-
-        );
-
-
-
-
-
-
-
 
         //creating field
         s = Snap("#backgroundRaceField");
@@ -133,18 +121,15 @@ if (Meteor.isClient) {
 
 
         Snap.load("../img/BlueCamel.svg", onBlueCamelSVGLoaded);
-
-
         Snap.load("../img/GreenCamel.svg", onGreenCamelSVGLoaded);
-        Snap.load("../img/YellowCamel.svg", onYellowCamelSVGLoaded);
         Snap.load("../img/RedCamel.svg", onRedCamelSVGLoaded);
+        Snap.load("../img/YellowCamel.svg", onYellowCamelSVGLoaded);
+
 
         Snap.load("../img/DesertBackground.svg", onDesertBackgroundLane1SVGLoaded);
         Snap.load("../img/DesertBackground.svg", onDesertBackgroundLane2SVGLoaded);
         Snap.load("../img/DesertBackground.svg", onDesertBackgroundLane3SVGLoaded);
         Snap.load("../img/DesertBackground.svg", onDesertBackgroundLane4SVGLoaded);
-
-
         //functions for adding camels to field + scaling svg
         function onBlueCamelSVGLoaded(f) {
             camelBlue = s.group().transform(startLocationBlue).append(f);
@@ -155,8 +140,16 @@ if (Meteor.isClient) {
             });
 
 
-        }
 
+            //currentGame = Games.findOne({}, {GameId: Session.get("GameId")});
+            //     if(currentGame.Players[0].Username != null){
+            //         waitingForBlueCamelRider.animate({
+            //             transform: "s0,t"
+            //         },4000)
+            //     }
+
+
+        }
 
         function onGreenCamelSVGLoaded(f) {
             camelGreen = s.group().transform(startLocationGreen).append(f);
@@ -164,15 +157,16 @@ if (Meteor.isClient) {
                 fill: "#900",
                 "font-size": "20px"
             });
+            //currentGame = Games.findOne({}, {GameId: Session.get("GameId")});
+            //   if(currentGame.Players[1].Username != null){
+            //       waitingForGreenCamelRider.animate({
+            //           transform: "s0,t"
+            //       },4000)
+            //   }
+
         }
 
-        function onYellowCamelSVGLoaded(f) {
-            camelYellow = s.group().transform(startLocationYellow).append(f);
-            waitingForYellowCamelRider = s.text(280, 290, "Waiting for camel Rider").attr({
-                fill: "#900",
-                "font-size": "20px"
-            });
-        }
+
 
         function onRedCamelSVGLoaded(f) {
             camelRed = s.group().transform(startLocationRed).append(f);
@@ -180,6 +174,23 @@ if (Meteor.isClient) {
                 fill: "#900",
                 "font-size": "20px"
             });
+
+
+        }
+        function onYellowCamelSVGLoaded(f) {
+            camelYellow = s.group().transform(startLocationYellow).append(f);
+            waitingForYellowCamelRider = s.text(280, 290, "Waiting for camel Rider").attr({
+                fill: "#900",
+                "font-size": "20px"
+            });
+            //currentGame = Games.findOne({}, {GameId: Session.get("GameId")});
+            //   if(currentGame.Players[2].Username != null){
+            //       waitingForYellowCamelRider.animate({
+            //           transform: "s0,t"
+            //       },4000)
+            //   }
+            doAfterLoad();
+
         }
 
         //adding desert foreground and backgrounds
@@ -190,19 +201,15 @@ if (Meteor.isClient) {
 
         function onDesertForegroundLane2SVGLoaded(f) {
             fieldArray.push(s.group().transform("t" + [0, 205] + "s" + [1.7, 1]).append(f));
-
         }
 
         function onDesertForegroundLane3SVGLoaded(f) {
             fieldArray.push(s.group().transform("t" + [0, 325] + "s" + [1.7, 1]).append(f));
-
         }
 
         function onDesertForegroundLane4SVGLoaded(f) {
             fieldArray.push(s.group().transform("t" + [0, 450] + "s" + [1.7, 1.3]).append(f));
-
         }
-
 
         function onDesertBackgroundLane1SVGLoaded(f) {
             fieldArray.push(s.group().transform("t" + [0, 91] + "s" + [1.7, 1]).append(f));
@@ -223,26 +230,97 @@ if (Meteor.isClient) {
         //add palmtree
         function onPalmThree1SVGLoaded(f) {
             fieldArray.push(s.group().transform("t" + [300, 31] + "s" + [0.1]).append(f));
-
         }
 
         function onPalmThree2SVGLoaded(f) {
             fieldArray.push(s.group().transform("t" + [150, 151] + "s" + [0.1]).append(f));
-
         }
 
         function onPalmThree3SVGLoaded(f) {
             fieldArray.push(s.group().transform("t" + [200, 257] + "s" + [0.1]).append(f));
-
         }
 
         function onPalmThree4SVGLoaded(f) {
             fieldArray.push(s.group().transform("t" + [250, 395] + "s" + [0.1]).append(f));
-
         }
 
-    }
+        game = Games.find({}, {GameId: Session.get("GameId")});
+        game.observeChanges({
+                changed: moveCamels
+            }
 
+        );
+        game.observeChanges({
+               // changed: availableRiders
+
+            }
+        );
+
+
+
+        function doAfterLoad (){
+
+            if(Session.get('PlayerId')== 0)  blueidentity = s.text(320, 15, "You are here").attr({ fill: "#300","font-size": "16px" });
+            if(Session.get('PlayerId')== 1)  greenidentity = s.text(320, 143, "You are here").attr({ fill: "#300","font-size": "16px" });
+            if(Session.get('PlayerId')== 2)  redidentity = s.text(320, 388, "You are here").attr({ fill: "#300","font-size": "16px" });
+            if(Session.get('PlayerId')== 3)  yellowidentity = s.text(320, 268, "You are here").attr({ fill: "#300","font-size": "16px" });
+
+
+            game.observe({
+                added:function(voor,na){
+                    console.log( voor);
+                    console.log("added");
+                    //Iets raars hier ==> of de session nu 1 of 2 is hij blijft de eerste game teruggeven
+                    //currentGame = Games.findOne({}, {GameId: Session.get("GameId")});
+                      currentGame = Games.findOne({GameId: parseInt(Session.get("GameId"))});
+
+
+                    var waitingRiders = [waitingForBlueCamelRider,waitingForGreenCamelRider,waitingForRedCamelRider,waitingForYellowCamelRider];
+                    $.each(waitingRiders, function (index) {
+                        if(currentGame.Players[index].Username != null){
+                        console.log("Player " +currentGame.Players[index].PlayerId + "has a rider" ) ;
+                        waitingRiders[index].animate({
+                            transform: "s0,t"
+                        },3000,function hide(){
+                            waitingRiders[index].attr({
+                                visibility:'hidden'
+                            })
+
+
+                        })}
+                    });
+                }
+            });
+
+            game.observe({
+                changed:function(voor,na){
+                    console.log(voor);
+                    console.log("changed");
+                    //currentGame = Games.findOne({}, {GameId: Session.get("GameId")});
+                    currentGame = Games.findOne({GameId: parseInt(Session.get("GameId"))});
+
+                    //var currentGame = Games.findOne({GameId: Session.get("GameId")});
+                    var waitingRiders = [waitingForBlueCamelRider,waitingForGreenCamelRider,waitingForRedCamelRider,waitingForYellowCamelRider];
+                    $.each(waitingRiders, function (index) {
+                        if(currentGame.Players[index].Username != null){
+                            console.log("Player " +currentGame.Players[index].PlayerId + "has a rider" ) ;
+                            waitingRiders[index].animate({
+                                transform: "s0,t"
+                            },3000,function hidemes(){
+                                waitingRiders[index].attr({
+                                    visibility: 'hidden'
+
+                                });
+
+
+                            })
+                        }
+                    });
+                }
+            });
+
+        }
+    }
 
     Template.messages.messages = function () {
         return Messages.find({}, { sort: {time: 1} });
@@ -656,21 +734,23 @@ if (Meteor.isClient) {
     }
 
     var availableRiders = function () {
-        var camelArray = [camelBlue, camelGreen, camelRed, camelYellow];
-        currentGame = Games.findOne({}, {GameId: Session.get("GameId")});
-        $.each(camelArray, function (index) {
-            if(currentGame.Players[index].Username == null){
-                console.log("Player " +currentGame.Players[index].PlayerId + "has no rider" ) ;
-            }
-            console.log("functie available riders");
+       // var waitingRiders = [waitingForBlueCamelRider,waitingForGreenCamelRider,waitingForRedCamelRider,waitingForYellowCamelRider];
+        //var camelArray = [camelBlue, camelGreen, camelRed, camelYellow];
+       // currentGame = Games.findOne({}, {GameId: Session.get("GameId")});
+        //$.each(waitingRiders, function (index) {
+          //  if(currentGame.Players[index].Username != null){
+            //    console.log("Player " +currentGame.Players[index].PlayerId + "has no rider" ) ;
+              //  waitingForBlueCamelRider.animate({
+              //      transform: "s3,t"
+            //   },1000)
+
+
+           // }
 
 
 
-        });
 
-
-
-
+//        });
     }
 
 
@@ -765,6 +845,24 @@ if (Meteor.isClient) {
             });
         });
 
+
+
+        if(Session.get('PlayerId')== 0)  blueidentity.attr({ visibility: 'hidden' });
+        if(Session.get('PlayerId')== 1)  greenidentity.attr({ visibility: 'hidden'});
+        if(Session.get('PlayerId')== 2)  redidentity.attr({ visibility: 'hidden' });
+        if(Session.get('PlayerId')== 3)  yellowidentity.attr({ visibility: 'hidden' });
+
+
+
+       // $.each(locaters, function (index) {
+        //    this.attr({
+         //       visibility: 'hidden'
+         //   });
+        //});
+
+
+
+
     }
 
     function loseHandler() {
@@ -784,10 +882,7 @@ if (Meteor.isClient) {
                     "font-size": "50px"
 
                 });
-
                 testing.node.id = "myText";
-
-
 
                 testing.hover(function hoverIn() {
                     testing.animate({
@@ -807,10 +902,6 @@ if (Meteor.isClient) {
                     //window.location = "/";
 
                 });
-
-
-
-
             });
 
         }
@@ -835,29 +926,29 @@ if (Meteor.isClient) {
             anim.animate({
                 transform: "t" + [590 / 4 - 100, 50] + "s" + [0.8]
             }, 2000, function restart() {
-                var testing = s.text(50, 250, "New game...").attr({
+                var testing2 = s.text(50, 250, "New game...").attr({
                     fill: "#900",
                     "font-size": "50px"
 
                 });
 
-                testing.node.id = "myText";
+                testing2.node.id = "myText";
 
 
 
-                testing.hover(function hoverIn() {
+                testing2.hover(function hoverIn() {
                     testing.animate({
                         transform: "s1.2,t"
                     }, 100);
 
                 }, function hoverOut() {
-                    testing.animate({
+                    testing2.animate({
                         transform: "s1,t"
                     }, 100);
 
                 })
 
-                testing.click(function () {
+                testing2.click(function () {
                     console.log("click");
                     window.location = "/";
 
