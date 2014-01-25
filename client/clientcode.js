@@ -830,38 +830,10 @@ if (Meteor.isClient) {
                 })
 
                 testing2.click(function () {
-                    window.location = "/";
+                    Meteor.Router.to('/');
 
                 });
-
-
             });
-
-            /*   var testing = s.text(240, 350, "New game...").attr({
-                   fill: "#900",
-                   "font-size": "50px"
-
-               });
-               testing.node.id = "myText";
-
-               testing.hover(function hoverIn() {
-                   testing.animate({
-                       transform: "s1.2,t"
-                   }, 100);
-
-               }, function hoverOut() {
-                   testing.animate({
-                       transform: "s1,t"
-                   }, 100);
-
-               });
-               testing.click(function () {
-                   window.location = "/";
-
-                   //Meteor.Router.to('/');
-               });
-           });*/
-
         }
         loseAnimation = false ;
 
@@ -907,7 +879,7 @@ if (Meteor.isClient) {
                 })
 
                 testing2.click(function () {
-                    window.location = "/";
+                    Meteor.Router.to('/');
 
                 });
 
