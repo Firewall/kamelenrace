@@ -808,29 +808,59 @@ if (Meteor.isClient) {
             });
             lostMessage.animate({
                 transform: "s1.1,t"
-            }, 1000, function restart() {
-                var testing = s.text(240, 350, "New game...").attr({
+            }, 1000, function restart2() {
+
+                var testing2 = s.text(270, 400, "New game...").attr({
                     fill: "#900",
                     "font-size": "50px"
 
                 });
-                testing.node.id = "myText";
+                testing2.node.id = "myText";
 
-                testing.hover(function hoverIn() {
-                    testing.animate({
+                testing2.hover(function hoverIn() {
+                    testing2.animate({
                         transform: "s1.2,t"
                     }, 100);
 
                 }, function hoverOut() {
-                    testing.animate({
+                    testing2.animate({
                         transform: "s1,t"
                     }, 100);
 
+                })
+
+                testing2.click(function () {
+                    window.location = "/";
+
                 });
-                testing.click(function () {
-                    Meteor.Router.to('/');
-                });
+
+
             });
+
+            /*   var testing = s.text(240, 350, "New game...").attr({
+                   fill: "#900",
+                   "font-size": "50px"
+
+               });
+               testing.node.id = "myText";
+
+               testing.hover(function hoverIn() {
+                   testing.animate({
+                       transform: "s1.2,t"
+                   }, 100);
+
+               }, function hoverOut() {
+                   testing.animate({
+                       transform: "s1,t"
+                   }, 100);
+
+               });
+               testing.click(function () {
+                   window.location = "/";
+
+                   //Meteor.Router.to('/');
+               });
+           });*/
 
         }
         loseAnimation = false ;
