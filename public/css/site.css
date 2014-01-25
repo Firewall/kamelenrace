@@ -33,10 +33,6 @@ body{
     height: 725px;
 
     margin: 15px auto;
-    /*background-color: #feff63;*/
-    /*background-color: #F4C165;*/
-
-    /*background-image: url("../img/desert_background.png");*/
     background-repeat: no-repeat;
     background-size: 150%;
 
@@ -226,8 +222,6 @@ This section is the css for the home page only !!
 #setUsernameBox {
     border:4px solid;
     background-color: #ffc213;
-    /*background-color: #ffffff;*/
-    /*opacity: 0.75;*/
     width: 33%;
     margin: 0 auto;
     padding: 10px;

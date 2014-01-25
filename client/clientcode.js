@@ -10,9 +10,7 @@ if (Meteor.isClient) {
     });
 
     //Game page JS
-
     //camel variabels
-
     //Y coord for camels
 
     var blueY = 0;
@@ -44,14 +42,9 @@ if (Meteor.isClient) {
 
     //camel objects
     var camelBlue;
-
     var camelGreen;
     var camelRed;
     var camelYellow;
-
-    //Game variabels
-    console.log(Session.get("GameId"));
-    console.log(Session.get("Username"));
 
     //field
     var s;
@@ -60,7 +53,6 @@ if (Meteor.isClient) {
     var animation = true;
     var loseAnimation = true;
 
-    //
     var fieldArray = new Array();
 
     var waitingForBlueCamelRider;
@@ -138,17 +130,6 @@ if (Meteor.isClient) {
                 fill: "#900",
                 "font-size": "20px"
             });
-
-
-
-            //currentGame = Games.findOne({}, {GameId: Session.get("GameId")});
-            //     if(currentGame.Players[0].Username != null){
-            //         waitingForBlueCamelRider.animate({
-            //             transform: "s0,t"
-            //         },4000)
-            //     }
-
-
         }
 
         function onGreenCamelSVGLoaded(f) {
@@ -157,40 +138,23 @@ if (Meteor.isClient) {
                 fill: "#900",
                 "font-size": "20px"
             });
-            //currentGame = Games.findOne({}, {GameId: Session.get("GameId")});
-            //   if(currentGame.Players[1].Username != null){
-            //       waitingForGreenCamelRider.animate({
-            //           transform: "s0,t"
-            //       },4000)
-            //   }
-
         }
-
-
 
         function onRedCamelSVGLoaded(f) {
             camelRed = s.group().transform(startLocationRed).append(f);
-            waitingForRedCamelRider= s.text(320, 430, "Waiting for camel Rider").attr({
+            waitingForRedCamelRider= s.text(280,290 , "Waiting for camel Rider").attr({
                 fill: "#900",
                 "font-size": "20px"
             });
-
-
         }
         function onYellowCamelSVGLoaded(f) {
             camelYellow = s.group().transform(startLocationYellow).append(f);
-            waitingForYellowCamelRider = s.text(280, 290, "Waiting for camel Rider").attr({
+            waitingForYellowCamelRider = s.text(320,430 , "Waiting for camel Rider").attr({
                 fill: "#900",
                 "font-size": "20px"
             });
-            //currentGame = Games.findOne({}, {GameId: Session.get("GameId")});
-            //   if(currentGame.Players[2].Username != null){
-            //       waitingForYellowCamelRider.animate({
-            //           transform: "s0,t"
-            //       },4000)
-            //   }
-            doAfterLoad();
 
+            doAfterLoad();
         }
 
         //adding desert foreground and backgrounds
@@ -262,23 +226,16 @@ if (Meteor.isClient) {
 
             if(Session.get('PlayerId')== 0)  blueidentity = s.text(320, 15, "You are here").attr({ fill: "#300","font-size": "16px" });
             if(Session.get('PlayerId')== 1)  greenidentity = s.text(320, 143, "You are here").attr({ fill: "#300","font-size": "16px" });
-            if(Session.get('PlayerId')== 2)  redidentity = s.text(320, 388, "You are here").attr({ fill: "#300","font-size": "16px" });
-            if(Session.get('PlayerId')== 3)  yellowidentity = s.text(320, 268, "You are here").attr({ fill: "#300","font-size": "16px" });
+            if(Session.get('PlayerId')== 2)  redidentity = s.text(320,268 , "You are here").attr({ fill: "#300","font-size": "16px" });
+            if(Session.get('PlayerId')== 3)  yellowidentity = s.text(320, 388, "You are here").attr({ fill: "#300","font-size": "16px" });
 
 
             game.observe({
                 added:function(voor,na){
-                    console.log( voor);
-                    console.log("added");
-                    //Iets raars hier ==> of de session nu 1 of 2 is hij blijft de eerste game teruggeven
-                    //currentGame = Games.findOne({}, {GameId: Session.get("GameId")});
-                      currentGame = Games.findOne({GameId: parseInt(Session.get("GameId"))});
-
-
+                    currentGame = Games.findOne({GameId: parseInt(Session.get("GameId"))});
                     var waitingRiders = [waitingForBlueCamelRider,waitingForGreenCamelRider,waitingForRedCamelRider,waitingForYellowCamelRider];
                     $.each(waitingRiders, function (index) {
                         if(currentGame.Players[index].Username != null){
-                        console.log("Player " +currentGame.Players[index].PlayerId + "has a rider" ) ;
                         waitingRiders[index].animate({
                             transform: "s0,t"
                         },3000,function hide(){
@@ -294,16 +251,11 @@ if (Meteor.isClient) {
 
             game.observe({
                 changed:function(voor,na){
-                    console.log(voor);
-                    console.log("changed");
-                    //currentGame = Games.findOne({}, {GameId: Session.get("GameId")});
                     currentGame = Games.findOne({GameId: parseInt(Session.get("GameId"))});
 
-                    //var currentGame = Games.findOne({GameId: Session.get("GameId")});
                     var waitingRiders = [waitingForBlueCamelRider,waitingForGreenCamelRider,waitingForRedCamelRider,waitingForYellowCamelRider];
                     $.each(waitingRiders, function (index) {
                         if(currentGame.Players[index].Username != null){
-                            console.log("Player " +currentGame.Players[index].PlayerId + "has a rider" ) ;
                             waitingRiders[index].animate({
                                 transform: "s0,t"
                             },3000,function hidemes(){
@@ -311,8 +263,6 @@ if (Meteor.isClient) {
                                     visibility: 'hidden'
 
                                 });
-
-
                             })
                         }
                     });
@@ -323,7 +273,7 @@ if (Meteor.isClient) {
     }
 
     Template.messages.messages = function () {
-        return Messages.find({}, { sort: {time: 1} });
+        return Messages.find({gameId:parseInt(Session.get('GameId'))}, { sort: {time: 1} });
     };
 
 
@@ -358,6 +308,8 @@ if (Meteor.isClient) {
         };
     };
 
+
+
     Template.entry.events = {};
 
     Template.entry.events[okcancel_events('#chatInput')] = make_okcancel_handler({
@@ -367,7 +319,8 @@ if (Meteor.isClient) {
                 Messages.insert({
                         name: Session.get('Username'),
                         message: text,
-                        time: ts},
+                        time: ts,
+                        gameId:parseInt(Session.get('GameId'))},
                     function () {
                         var elem = document.getElementById('chat');
                         elem.scrollTop = elem.scrollHeight;
@@ -636,7 +589,6 @@ if (Meteor.isClient) {
             for (i = 0; i < holesArray.length; i++) {
                 if (holesArray[i].radius > getDistance(ball.node.cx.baseVal.value, ball.node.cy.baseVal.value, holesArray[i].middlepointX, holesArray[i].middlepointY)) {
                     isAboveHole = true;
-                    console.log('The ball is above hole ' + holesArray[i].nr);
                     ballGoesInHole(holesArray[i]);
                     return;
                 }
@@ -702,14 +654,13 @@ if (Meteor.isClient) {
     function ballGoesInHole(hole) {
         console.log("Ball went into hole: " + hole.nr);
         //Get the current state of the game
-        var tempGame = Games.findOne({}, {GameId: Session.get("GameId")});
+        var tempGame = Games.findOne({GameId: parseInt(Session.get("GameId"))});
         //Increase the current location
         tempGame.Players[Session.get("PlayerId")].CurrentLocation += parseInt(hole.nr) * 50;
         //Update the game in the DB
         Games.update(tempGame._id, tempGame);
         //Update the game on the client side
-        //game = tempGame
-        // console.log(game);
+        game = tempGame
 
         //Reset the ball location
         ball.animate({cx: hole.middlepointX, cy: hole.middlepointY, r: 0}, 1000);
@@ -733,41 +684,24 @@ if (Meteor.isClient) {
         setTimeout(throwBall, 600)
     }
 
-    var availableRiders = function () {
-       // var waitingRiders = [waitingForBlueCamelRider,waitingForGreenCamelRider,waitingForRedCamelRider,waitingForYellowCamelRider];
-        //var camelArray = [camelBlue, camelGreen, camelRed, camelYellow];
-       // currentGame = Games.findOne({}, {GameId: Session.get("GameId")});
-        //$.each(waitingRiders, function (index) {
-          //  if(currentGame.Players[index].Username != null){
-            //    console.log("Player " +currentGame.Players[index].PlayerId + "has no rider" ) ;
-              //  waitingForBlueCamelRider.animate({
-              //      transform: "s3,t"
-            //   },1000)
-
-
-           // }
-
-
-
-
-//        });
-    }
-
-
     var moveCamels = function () {
-        console.log("Camels are being moved");
         var camelArray = [camelBlue, camelGreen, camelRed, camelYellow];
-        currentGame = Games.findOne({}, {GameId: Session.get("GameId")});
+        currentGame = Games.findOne({GameId: parseInt(Session.get("GameId"))});
         $.each(camelArray, function (index) {
             this.animate({
                 transform: "t" + [590 - currentGame.Players[index].CurrentLocation, ys[index]] + "s" + [0.25]
             }, parseInt(2000), function checkwin() {
-                currentGame.Players[index].CurrentLocation
+                //currentGame.Players[index].CurrentLocation
                 if (currentGame.Players[index].CurrentLocation >= 590) {
-                    console.log("gewonnen" + currentGame.Players[index].CurrentLocation);
-                    console.log("Player " + currentGame.Players[index].Username + " heeft gewonnen!");
+                    //Get the current state of the game
+                    var tempGame = Games.findOne({GameId: parseInt(Session.get("GameId"))});
+                    //Increase the current location
+                    tempGame.GameEnded = true ;
+                    //Update the game in the DB
+                    Games.update(tempGame._id, tempGame);
+
+
                     if (currentGame.Players[index].PlayerId == (parseInt(Session.get("PlayerId")))) {
-                        console.log("you win");
                         //load the correct image
                         switch (currentGame.Players[index].PlayerId) {
                             case 0:
@@ -788,8 +722,6 @@ if (Meteor.isClient) {
 
                     }
                     else {
-                        console.log("you lose");
-                        console.log(currentGame.Players[index].PlayerId + "  " + Session.get("PlayerId"));
                         loseHandler();
                         //return false to stop each
                         return false;
@@ -831,6 +763,17 @@ if (Meteor.isClient) {
 
     function hideField() {
         var camelArray = [camelBlue, camelGreen, camelRed, camelYellow];
+        var waitingMessArray = [waitingForBlueCamelRider,waitingForGreenCamelRider,waitingForRedCamelRider,waitingForYellowCamelRider]
+
+        $.each(waitingMessArray, function (index) {
+            this.attr({
+                visibility: 'hidden'
+            });
+
+        });
+
+
+
 
         $.each(camelArray, function (index) {
             this.attr({
@@ -851,17 +794,6 @@ if (Meteor.isClient) {
         if(Session.get('PlayerId')== 1)  greenidentity.attr({ visibility: 'hidden'});
         if(Session.get('PlayerId')== 2)  redidentity.attr({ visibility: 'hidden' });
         if(Session.get('PlayerId')== 3)  yellowidentity.attr({ visibility: 'hidden' });
-
-
-
-       // $.each(locaters, function (index) {
-        //    this.attr({
-         //       visibility: 'hidden'
-         //   });
-        //});
-
-
-
 
     }
 
@@ -896,11 +828,7 @@ if (Meteor.isClient) {
 
                 });
                 testing.click(function () {
-                    console.log("click");
                     Meteor.Router.to('/');
-
-                    //window.location = "/";
-
                 });
             });
 
@@ -937,7 +865,7 @@ if (Meteor.isClient) {
 
 
                 testing2.hover(function hoverIn() {
-                    testing.animate({
+                    testing2.animate({
                         transform: "s1.2,t"
                     }, 100);
 
@@ -949,7 +877,6 @@ if (Meteor.isClient) {
                 })
 
                 testing2.click(function () {
-                    console.log("click");
                     window.location = "/";
 
                 });
@@ -965,181 +892,7 @@ if (Meteor.isClient) {
 
 }
 
-//events for moving camel on button click
-//    Template.hello.events = {
-//        'click #btnMoveCamel': function () {
-//            //testing move
-//            var speed = $("#txtboxSpeed").val();
-//            var distance = $("#txtboxDistance").val();
-//            // console.log(game.Players[1].Distance*10) ;
-//            //var PlayerId = Session.get("PlayerId") ;
-//
-//            //var test = game.Players[PlayerId].Distance*10 ;
-//
-//
-//            var camelArray = [camelBlue, camelGreen, camelRed, camelYellow];
-//            /*            camelArray[PlayerId].animate({
-//             transform: "t"+[currentLocationBlueX-test,blueY]+"s"+[0.25]
-//             },parseInt(2000));
-//             currentLocationBlueX = currentLocationBlueX - test ;*/
-//
-//            $.each(camelArray, function (index) {
-//                this.animate({
-//                    transform: "t" + [currentLocations[index] - game.Players[index].Distance * 10 , ys[index]] + "s" + [0.25]
-//                }, parseInt(2000));
-//                currentLocations[index] = currentLocations[index] - game.Players[index].Distance * 10;
-//                console.log(this);
-//                // this.an
-//            });
-//
-//            //testing leg move
-//
-//            /* camelTest.animate({
-//             transform: "t"+[currentLocationBlueX-distance,blueY]+"s"+[0.25]
-//             },parseInt(speed));
-//             //currentLocationBlueX = currentLocationBlueX - distance ;
-//
-//
-//
-//
-//             camelGreen.animate({
-//             transform: "t"+[currentLocationGreenX-distance,greenY]+"s"+[0.25]
-//             },parseInt(speed));
-//             currentLocationGreenX = currentLocationGreenX - distance ;
-//
-//             camelRed.animate({
-//             transform: "t"+[currentLocationRedX-distance,redY]+"s"+[0.25]
-//             },parseInt(speed));
-//             currentLocationRedX = currentLocationRedX - distance ;
-//
-//             camelYellow.animate({
-//             transform: "t"+[currentLocationYellowX-distance,yellowY]+"s"+[0.25]
-//             },parseInt(speed));
-//             currentLocationYellowX = currentLocationYellowX - distance ;*/
-//
-//        }
-//    };
 
-
-/*
- ******************************************************************************************
- * Animation for the Home Page
- * @author: Ewout Merckx
- */
-
-//rendering field
-Template.welcomeCamel.rendered = function () {
-
-    // We create a new snap object
-    var snapObj = Snap("#camelRunningBy");
-    // We create a new group
-    var welcomeCamel = snapObj.group();
-    // We create an array with all the camels in it
-    var camelArray = new Array();
-    // A variable to keep the with of the running field
-    var welcomeCamelFieldWidth = $('#camelRunningBy').width();
-    // Initial value to check if all the images are loaded
-    var imagesLoaded = 0, totalImages = 3;
-
-
-    // loading each camel to function as a running welcome camel
-    Snap.load("../img/runningCamel/camelBase.svg", onWelcomeCamelSVGLoaded);
-    Snap.load("../img/runningCamel/camelRunning1.svg", onWelcomeCamelSVGLoaded);
-    Snap.load("../img/runningCamel/camelRunning2.svg", onWelcomeCamelSVGLoaded);
-
-    // Evenhandler when a camel is loaded
-    function onWelcomeCamelSVGLoaded(f) {
-        // we add the loaded svg to a group and add the group to our array
-        camelArray.push(snapObj.group().append(f));
-        // we add the group with the loaded svg to our global group
-        welcomeCamel.transform("t" + [0, 0] + "s" + [0.3, 0.3]).append(camelArray[imagesLoaded]);
-
-        // we set each camel to invisible
-        camelArray[imagesLoaded].attr({
-            visibility: "hidden"
-        });
-
-        // image that are loaded + 1
-        imagesLoaded++;
-
-        // If all the camels are loaded, animate them
-        if (imagesLoaded == totalImages) {
-            setTimeout(animateCamel, 500);
-        }
-    }
-
-    //Animates the camels
-    function animateCamel() {
-
-        // The first camel is set to visible
-        setCamelVisible1()
-
-        // Makes the camels move
-        welcomeCamel.animate({
-            transform: "t" + (welcomeCamelFieldWidth / 2 - 50) + "s" + [0.3, 0.3]
-        }, 5000);
-    }
-
-    // The first camel is set to visible
-    function setCamelVisible1() {
-        camelArray[0].attr({
-            visibility: "visible"
-        });
-        camelArray[1].attr({
-            visibility: "hidden"
-        });
-        camelArray[2].attr({
-            visibility: "hidden"
-        });
-
-        setTimeout(setCamelVisible2, 250);
-    }
-
-    // The second camel is set to visible
-    function setCamelVisible2() {
-        camelArray[1].attr({
-            visibility: "visible"
-        });
-        camelArray[2].attr({
-            visibility: "hidden"
-        });
-        camelArray[0].attr({
-            visibility: "hidden"
-        });
-
-        setTimeout(setCamelVisible3, 250);
-    }
-
-    // The third camel is set to visible, actually it is the first one again
-    function setCamelVisible3() {
-        camelArray[0].attr({
-            visibility: "visible"
-        });
-        camelArray[1].attr({
-            visibility: "hidden"
-        });
-        camelArray[2].attr({
-            visibility: "hidden"
-        });
-
-        setTimeout(setCamelVisible4, 250);
-    }
-
-    // The fourth camel is set to visible, actually it is the first one again
-    function setCamelVisible4() {
-        camelArray[2].attr({
-            visibility: "visible"
-        });
-        camelArray[0].attr({
-            visibility: "hidden"
-        });
-        camelArray[1].attr({
-            visibility: "hidden"
-        });
-
-        setTimeout(setCamelVisible1, 250);
-    }
-}
 
 
 

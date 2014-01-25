@@ -47,7 +47,7 @@ if (Meteor.isClient) {
                     for (var i = 0; i < allGames.length && foundGame == false; i++) {
                         for (var j = 0; j < allGames[i].Players.length && foundGame == false; j++) {
                             //console.log(allGames[i].Players[j].Username);
-                            if (allGames[i].Players[j].Username == undefined) {
+                            if (allGames[i].Players[j].Username == undefined && allGames[i].GameEnded == false) {
                                 //Change the db record
                                 allGames[i].Players[j].Username = $('#txtSetUsername').val();
                                 //Send update to DB
@@ -181,4 +181,3 @@ if (Meteor.isClient) {
 
     }
 }
-
