@@ -187,7 +187,6 @@ if (Meteor.isClient) {
      * @author: Ewout Merckx
      */
 
-//rendering field
     Template.welcomeCamel.rendered = function () {
 
         // We create a new snap object
@@ -200,12 +199,19 @@ if (Meteor.isClient) {
         var welcomeCamelFieldWidth = $('#camelRunningBy').width();
         // Initial value to check if all the images are loaded
         var imagesLoaded = 0, totalImages = 3;
-
+        // if the camel is allowed to run
+        var camelCanRun = true;
 
         // loading each camel to function as a running welcome camel
         Snap.load("../img/runningCamel/camelBase.svg", onWelcomeCamelSVGLoaded);
-        Snap.load("../img/runningCamel/camelRunning1.svg", onWelcomeCamelSVGLoaded);
-        Snap.load("../img/runningCamel/camelRunning2.svg", onWelcomeCamelSVGLoaded);
+        //Snap.load("../img/runningCamel/camelRunning1.svg", onWelcomeCamelSVGLoaded);
+        //Snap.load("../img/runningCamel/camelRunning2.svg", onWelcomeCamelSVGLoaded);
+        setTimeout(function () {
+            Snap.load("../img/runningCamel/camelRunning1.svg", onWelcomeCamelSVGLoaded);
+        }, 100);
+        setTimeout(function () {
+            Snap.load("../img/runningCamel/camelRunning2.svg", onWelcomeCamelSVGLoaded);
+        }, 200);
 
         // Evenhandler when a camel is loaded
         function onWelcomeCamelSVGLoaded(f) {
@@ -231,13 +237,23 @@ if (Meteor.isClient) {
         //Animates the camels
         function animateCamel() {
 
+            // The duration of the animation in ms
+            var duration = 5000;
+            // We make sure that the boolean for the animation is set to true
+            camelCanRun = true;
+
             // The first camel is set to visible
-            setCamelVisible1()
+            setCamelVisible1();
 
             // Makes the camels move
             welcomeCamel.animate({
                 transform: "t" + (welcomeCamelFieldWidth / 2 - 50) + "s" + [0.3, 0.3]
-            }, 5000);
+            }, duration);
+
+            // Stops the animation after 5 seconds
+            setTimeout(function () {
+                camelCanRun = false;
+            }, duration)
         }
 
         // The first camel is set to visible
@@ -252,7 +268,9 @@ if (Meteor.isClient) {
                 visibility: "hidden"
             });
 
-            setTimeout(setCamelVisible2, 250);
+            if (camelCanRun) {
+                setTimeout(setCamelVisible2, 250);
+            }
         }
 
         // The second camel is set to visible
@@ -282,7 +300,9 @@ if (Meteor.isClient) {
                 visibility: "hidden"
             });
 
-            setTimeout(setCamelVisible4, 250);
+            if (camelCanRun) {
+                setTimeout(setCamelVisible4, 250);
+            }
         }
 
         // The fourth camel is set to visible, actually it is the first one again
@@ -300,5 +320,4 @@ if (Meteor.isClient) {
             setTimeout(setCamelVisible1, 250);
         }
     }
-
 }

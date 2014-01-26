@@ -411,7 +411,7 @@ if (Meteor.isClient) {
         // we make the ball
         ball = snapobj.circle(ballFieldWidth / 2, 600, ballRadius);
         ball.attr({
-            fill: 'r()#FF0000-#B30000',
+            fill: '#B30000',
             stroke: '#000',
             strokeWidth: '1'
         });
@@ -664,24 +664,27 @@ if (Meteor.isClient) {
 
         //Reset the ball location
         ball.animate({cx: hole.middlepointX, cy: hole.middlepointY, r: 0}, 1000);
-        setTimeout(resetBall, 1000);
+        setTimeout(resetBall, 1010);
     }
 
 // Resets the ball
     function resetBall() {
-        // the velocity of the ball
-        vx = 0.001;
-        vy = 0.1;
-
-        // the ball is not above a hole
-        isAboveHole = false;
-
         // position and radius of the ball
         ball.animate({cx: ballFieldWidth / 2, cy: 600}, 1);
-        ball.animate({r: ballRadius}, 500);
 
-        // animation of the ball
-        setTimeout(throwBall, 600)
+        setTimeout(function() {
+            // the velocity of the ball
+            vx = 0.001;
+            vy = 0.1;
+
+            // the ball is not above a hole
+            isAboveHole = false;
+
+            ball.animate({r: ballRadius}, 500);
+
+            // animation of the ball
+            setTimeout(throwBall, 600)
+        }, 100)
     }
 
     var moveCamels = function () {
