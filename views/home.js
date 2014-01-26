@@ -180,4 +180,125 @@ if (Meteor.isClient) {
         });
 
     }
+
+    /*
+     ******************************************************************************************
+     * Animation for the Home Page
+     * @author: Ewout Merckx
+     */
+
+//rendering field
+    Template.welcomeCamel.rendered = function () {
+
+        // We create a new snap object
+        var snapObj = Snap("#camelRunningBy");
+        // We create a new group
+        var welcomeCamel = snapObj.group();
+        // We create an array with all the camels in it
+        var camelArray = new Array();
+        // A variable to keep the with of the running field
+        var welcomeCamelFieldWidth = $('#camelRunningBy').width();
+        // Initial value to check if all the images are loaded
+        var imagesLoaded = 0, totalImages = 3;
+
+
+        // loading each camel to function as a running welcome camel
+        Snap.load("../img/runningCamel/camelBase.svg", onWelcomeCamelSVGLoaded);
+        Snap.load("../img/runningCamel/camelRunning1.svg", onWelcomeCamelSVGLoaded);
+        Snap.load("../img/runningCamel/camelRunning2.svg", onWelcomeCamelSVGLoaded);
+
+        // Evenhandler when a camel is loaded
+        function onWelcomeCamelSVGLoaded(f) {
+            // we add the loaded svg to a group and add the group to our array
+            camelArray.push(snapObj.group().append(f));
+            // we add the group with the loaded svg to our global group
+            welcomeCamel.transform("t" + [0, 0] + "s" + [0.3, 0.3]).append(camelArray[imagesLoaded]);
+
+            // we set each camel to invisible
+            camelArray[imagesLoaded].attr({
+                visibility: "hidden"
+            });
+
+            // image that are loaded + 1
+            imagesLoaded++;
+
+            // If all the camels are loaded, animate them
+            if (imagesLoaded == totalImages) {
+                setTimeout(animateCamel, 500);
+            }
+        }
+
+        //Animates the camels
+        function animateCamel() {
+
+            // The first camel is set to visible
+            setCamelVisible1()
+
+            // Makes the camels move
+            welcomeCamel.animate({
+                transform: "t" + (welcomeCamelFieldWidth / 2 - 50) + "s" + [0.3, 0.3]
+            }, 5000);
+        }
+
+        // The first camel is set to visible
+        function setCamelVisible1() {
+            camelArray[0].attr({
+                visibility: "visible"
+            });
+            camelArray[1].attr({
+                visibility: "hidden"
+            });
+            camelArray[2].attr({
+                visibility: "hidden"
+            });
+
+            setTimeout(setCamelVisible2, 250);
+        }
+
+        // The second camel is set to visible
+        function setCamelVisible2() {
+            camelArray[1].attr({
+                visibility: "visible"
+            });
+            camelArray[2].attr({
+                visibility: "hidden"
+            });
+            camelArray[0].attr({
+                visibility: "hidden"
+            });
+
+            setTimeout(setCamelVisible3, 250);
+        }
+
+        // The third camel is set to visible, actually it is the first one again
+        function setCamelVisible3() {
+            camelArray[0].attr({
+                visibility: "visible"
+            });
+            camelArray[1].attr({
+                visibility: "hidden"
+            });
+            camelArray[2].attr({
+                visibility: "hidden"
+            });
+
+            setTimeout(setCamelVisible4, 250);
+        }
+
+        // The fourth camel is set to visible, actually it is the first one again
+        function setCamelVisible4() {
+            camelArray[2].attr({
+                visibility: "visible"
+            });
+            camelArray[0].attr({
+                visibility: "hidden"
+            });
+            camelArray[1].attr({
+                visibility: "hidden"
+            });
+
+            setTimeout(setCamelVisible1, 250);
+        }
+    }
+
 }
