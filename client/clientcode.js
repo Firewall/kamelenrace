@@ -214,13 +214,6 @@ if (Meteor.isClient) {
             }
 
         );
-        game.observeChanges({
-               // changed: availableRiders
-
-            }
-        );
-
-
 
         function doAfterLoad (){
 
