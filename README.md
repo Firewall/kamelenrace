@@ -1,16 +1,17 @@
-Kamelenrace
-===========
+Camelrace
+=========
 
-Projecten 2 van Ewout Merckx, Robin Geldolf &amp; Matt Demyttenaere
+Projects 2 of Ewout Merckx, Robin Geldolf &amp; Matt Demyttenaere
 
-# Wat jullie nodig hebben:
+# What you need
 	Github Account
+	Meteor
 
 # DB
-Gratis 500mb databank van Mongolab
-https://mongolab.com/databases/kamelenrace (Gebruiken we voor nu ffe niet)
+Free 500mb database of Mongolab : <br>
+https://mongolab.com/databases/kamelenrace
 
-# Interessante Shit
-https://www.youtube.com/watch?v=vpp-8gkPWVE
+# Interesting videos to watch
+https://www.youtube.com/watch?v=vpp-8gkPWVE <br>
 https://www.youtube.com/watch?v=4mtLCjhxKAs
 
