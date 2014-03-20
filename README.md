@@ -18,10 +18,11 @@ git clone git@github.com:Firewall/kamelenrace.git
 Now run mrt to install packages
 
 ```
+cd kamelenrace
 mrt
 ```
 
-The snap.svg package does not install correctly. To fix this:
+The snap.svg package sometimes does not install correctly. To fix this:
 
 ```
 mv packages/dist packages/snap-svg/lib/ 
